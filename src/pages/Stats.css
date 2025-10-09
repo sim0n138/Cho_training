@@ -1,0 +1,43 @@
+.stats-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 3rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content-wrapper h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.placeholder {
+  background-color: #f9f9f9;
+  padding: 3rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px dashed #ddd;
+}
+
+.placeholder p {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.placeholder .note {
+  color: #999;
+  font-size: 0.9rem;
+}
