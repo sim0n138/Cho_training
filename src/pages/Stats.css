@@ -1,43 +1,106 @@
-.stats-page {
-  min-height: 100vh;
-  background-color: #f5f5f5;
-}
-
-.content-wrapper {
-  max-width: 800px;
+.stats-container {
+  max-width: 1200px;
   margin: 0 auto;
-  background-color: #ffffff;
-  padding: 3rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.content-wrapper h2 {
+.stats-container h2 {
   font-size: 2rem;
   color: #333;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .description {
   color: #666;
   font-size: 1.1rem;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
-.placeholder {
+.no-data {
   background-color: #f9f9f9;
   padding: 3rem;
   border-radius: 8px;
   text-align: center;
   border: 2px dashed #ddd;
+  margin-top: 2rem;
 }
 
-.placeholder p {
+.no-data p {
   color: #666;
   margin-bottom: 1rem;
+  font-size: 1.1rem;
 }
 
-.placeholder .note {
+.no-data .note {
   color: #999;
   font-size: 0.9rem;
+}
+
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stats-overview .card {
+  text-align: center;
+}
+
+.stats-overview .card h3 {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4caf50;
+  margin: 0;
+}
+
+.charts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.charts-section .card {
+  padding: 2rem;
+}
+
+.charts-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .stats-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .stats-overview {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .charts-section .card {
+    padding: 1.5rem;
+  }
+
+  .charts-section h3 {
+    font-size: 1.1rem;
+  }
 }
