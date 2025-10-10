@@ -13,23 +13,39 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
   color: var(--color-text-inverse);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-hover) 0%,
+    var(--color-primary) 100%
+  );
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-secondary-hover) 100%
+  );
   color: var(--color-text-inverse);
 }
 
 .btn-secondary:hover {
-  background: linear-gradient(135deg, var(--color-secondary-hover) 0%, var(--color-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary-hover) 0%,
+    var(--color-secondary) 100%
+  );
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
@@ -39,13 +55,21 @@
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-text-inverse);
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
   box-shadow: var(--shadow-md);
   margin-top: var(--spacing-md);
 }
 
 .btn-submit:hover {
-  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-accent-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-hover) 0%,
+    var(--color-accent-hover) 100%
+  );
   box-shadow: var(--shadow-xl);
   transform: translateY(-3px);
 }

@@ -14,6 +14,14 @@ A personal training tracker web application to help users systematize their work
   - Muscle pain tracking (legs, back, arms, chest, full body)
   - Form validation
   - Data persistence in localStorage
+- **Program Generator**: Personalized daily workout program generator:
+  - RPE-based intensity adjustment (1-10 scale)
+  - Pain area filtering (excludes conflicting exercises)
+  - Automatic area rotation (prevents repeating dominant areas)
+  - Exercise packing with ±10% tolerance
+  - Accessible modals with focus management
+  - Program history tracking (localStorage)
+  - See [Technical Documentation](docs/PROGRAM_GENERATOR.md)
 - **Statistics**: Visual analytics and progress tracking:
   - Total logs and weekly logs count
   - Average sleep quality and energy level
@@ -85,6 +93,8 @@ src/
 │   ├── Dashboard.css
 │   ├── Log.jsx              # Wellbeing logging form
 │   ├── Log.css
+│   ├── Program.jsx          # Workout program generator
+│   ├── Program.css
 │   ├── Stats.jsx            # Statistics and charts
 │   └── Stats.css
 ├── App.jsx                  # Main app component with routing
@@ -98,14 +108,15 @@ The application uses browser's localStorage to persist wellbeing logs. Data is s
 
 ## Future Enhancements
 
-- Personalized workout recommendations based on wellbeing data
+- ~~Training programs and workout templates~~ ✅ **Implemented as Program Generator**
+- Integration between Program Generator and Log Wellbeing data
 - Export/import data functionality
 - More detailed analytics and custom date ranges
 - Notes functionality for workout sessions
-- Training programs and workout templates
+- Expanded exercise database
 - Integration with fitness tracking devices
-- Dark mode support
-- Multi-language support
+- Toast notifications for user actions
+- Multi-language support (i18n)
 
 ## Development Guidelines
 
