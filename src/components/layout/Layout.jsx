@@ -59,6 +59,13 @@ function Layout({ children }) {
           Log Wellbeing
         </Link>
         <Link
+          to="/program"
+          className={`nav-link ${isActive('/program') ? 'active' : ''}`}
+          aria-current={isActive('/program') ? 'page' : undefined}
+        >
+          Program
+        </Link>
+        <Link
           to="/stats"
           className={`nav-link ${isActive('/stats') ? 'active' : ''}`}
           aria-current={isActive('/stats') ? 'page' : undefined}
