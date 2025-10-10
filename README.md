@@ -106,14 +106,30 @@ src/
 
 The application uses browser's localStorage to persist wellbeing logs. Data is stored under the key `training_logs` as a JSON array.
 
+## Exercise Database
+
+The application includes a comprehensive database of **340+ scientifically-based exercises**, all in Russian:
+- **120 stretching exercises** (Растяжка) - improving flexibility and mobility
+- **120 therapeutic/LFC exercises** (ЛФК) - rehabilitation and strengthening  
+- **100 meditation exercises** (Медитация) - mental wellness and stress reduction
+
+All exercises are:
+- ✅ In Russian language (весь текст на русском)
+- ✅ Scientifically-based (научно обоснованно)
+- ✅ Categorized by difficulty level (1-3)
+- ✅ Tagged by body areas for smart filtering
+- ✅ Integrated with RPE and pain area filtering
+
+See [Exercise Database Documentation](docs/EXERCISE_DATABASE.md) for details.
+
 ## Future Enhancements
 
 - ~~Training programs and workout templates~~ ✅ **Implemented as Program Generator**
+- ~~Expanded exercise database~~ ✅ **Implemented with 340+ exercises**
 - Integration between Program Generator and Log Wellbeing data
 - Export/import data functionality
 - More detailed analytics and custom date ranges
 - Notes functionality for workout sessions
-- Expanded exercise database
 - Integration with fitness tracking devices
 - Toast notifications for user actions
 - Multi-language support (i18n)
