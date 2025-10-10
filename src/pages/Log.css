@@ -1,20 +1,20 @@
 .content-wrapper {
   max-width: 800px;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--color-bg-secondary);
   padding: 3rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .content-wrapper h2 {
   font-size: 2rem;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
 }
 
 .description {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 1.1rem;
   margin-bottom: 2rem;
 }
@@ -34,7 +34,7 @@
 .form-label {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .radio-group {
@@ -48,15 +48,15 @@
   align-items: center;
   cursor: pointer;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-border-light);
   border-radius: 8px;
   transition: all 0.3s ease;
-  background-color: #f9f9f9;
+  background-color: var(--color-bg-tertiary);
 }
 
 .radio-option:hover {
-  border-color: #4caf50;
-  background-color: #f0f9f0;
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
 }
 
 .radio-option input[type='radio'] {
@@ -66,12 +66,12 @@
 
 .radio-option input[type='radio']:checked + .radio-label {
   font-weight: 600;
-  color: #4caf50;
+  color: var(--color-primary);
 }
 
 .radio-label {
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text-primary);
   transition: all 0.3s ease;
 }
 
@@ -79,29 +79,29 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: #999;
+  color: var(--color-text-tertiary);
   margin-top: -0.5rem;
 }
 
 .form-select {
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-border-light);
   border-radius: 8px;
-  background-color: #ffffff;
-  color: #333;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .form-select:hover {
-  border-color: #4caf50;
+  border-color: var(--color-primary);
 }
 
 .form-select:focus {
   outline: none;
-  border-color: #4caf50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
 }
 
 .checkbox-group {
@@ -115,15 +115,15 @@
   align-items: center;
   cursor: pointer;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-border-light);
   border-radius: 8px;
   transition: all 0.3s ease;
-  background-color: #f9f9f9;
+  background-color: var(--color-bg-tertiary);
 }
 
 .checkbox-option:hover {
-  border-color: #4caf50;
-  background-color: #f0f9f0;
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
 }
 
 .checkbox-option input[type='checkbox'] {
@@ -134,42 +134,42 @@
 }
 
 .checkbox-option input[type='checkbox']:checked {
-  accent-color: #4caf50;
+  accent-color: var(--color-primary);
 }
 
 .checkbox-option span {
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .btn-submit {
   padding: 1rem 2rem;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffffff;
-  background-color: #4caf50;
+  color: var(--color-text-inverse);
+  background-color: var(--color-primary);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   margin-top: 1rem;
 }
 
 .btn-submit:hover {
-  background-color: #45a049;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-xl);
   transform: translateY(-2px);
 }
 
 .btn-submit:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .error-message {
   display: block;
-  color: #d32f2f;
+  color: var(--color-error);
   font-size: 0.875rem;
   margin-top: 0.5rem;
   font-weight: 500;

@@ -5,13 +5,13 @@
 
 .summary-section h2 {
   font-size: 2rem;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
 }
 
 .summary-section p {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .quick-access {

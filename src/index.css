@@ -5,17 +5,84 @@
 }
 
 :root {
+  /* Typography */
   font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color: #333;
-  background-color: #f5f5f5;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Color Palette - Light Theme */
+  --color-primary: #4caf50;
+  --color-primary-hover: #45a049;
+  --color-primary-light: #f0f9f0;
+  --color-secondary: #2196f3;
+  --color-secondary-hover: #0b7dda;
+  --color-error: #d32f2f;
+
+  /* Text Colors */
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-tertiary: #999;
+  --color-text-inverse: #ffffff;
+
+  /* Background Colors */
+  --color-bg-primary: #f5f5f5;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #f9f9f9;
+  --color-bg-hover: #f0f0f0;
+
+  /* Border Colors */
+  --color-border-light: #e0e0e0;
+  --color-border-medium: #ddd;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-focus: 0 0 0 3px rgba(76, 175, 80, 0.1);
+
+  /* Apply global colors */
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
+
+/* Dark Theme */
+:root[data-theme='dark'] {
+  /* Color Palette - Dark Theme */
+  --color-primary: #66bb6a;
+  --color-primary-hover: #81c784;
+  --color-primary-light: #1e3a1f;
+  --color-secondary: #42a5f5;
+  --color-secondary-hover: #64b5f6;
+  --color-error: #ef5350;
+
+  /* Text Colors */
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #b0b0b0;
+  --color-text-tertiary: #808080;
+  --color-text-inverse: #121212;
+
+  /* Background Colors */
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #1e1e1e;
+  --color-bg-tertiary: #2a2a2a;
+  --color-bg-hover: #333333;
+
+  /* Border Colors */
+  --color-border-light: #333333;
+  --color-border-medium: #404040;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-focus: 0 0 0 3px rgba(102, 187, 106, 0.2);
 }
 
 body {

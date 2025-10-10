@@ -12,42 +12,42 @@
 }
 
 .btn-primary {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .btn-primary:hover {
-  background-color: #45a049;
+  background-color: var(--color-primary-hover);
 }
 
 .btn-secondary {
-  background-color: #2196f3;
-  color: white;
+  background-color: var(--color-secondary);
+  color: var(--color-text-inverse);
 }
 
 .btn-secondary:hover {
-  background-color: #0b7dda;
+  background-color: var(--color-secondary-hover);
 }
 
 .btn-submit {
   padding: 1rem 2rem;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffffff;
-  background-color: #4caf50;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: var(--color-text-inverse);
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
   margin-top: 1rem;
 }
 
 .btn-submit:hover {
-  background-color: #45a049;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-xl);
   transform: translateY(-2px);
 }
 
 .btn-submit:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn:disabled {

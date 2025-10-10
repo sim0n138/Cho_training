@@ -5,35 +5,35 @@
 
 .stats-container h2 {
   font-size: 2rem;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .description {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 1.1rem;
   margin-bottom: 2rem;
   text-align: center;
 }
 
 .no-data {
-  background-color: #f9f9f9;
+  background-color: var(--color-bg-tertiary);
   padding: 3rem;
   border-radius: 8px;
   text-align: center;
-  border: 2px dashed #ddd;
+  border: 2px dashed var(--color-border-medium);
   margin-top: 2rem;
 }
 
 .no-data p {
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
 
 .no-data .note {
-  color: #999;
+  color: var(--color-text-tertiary);
   font-size: 0.9rem;
 }
 
@@ -50,7 +50,7 @@
 
 .stats-overview .card h3 {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
   font-weight: 500;
 }
@@ -58,7 +58,7 @@
 .stat-value {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #4caf50;
+  color: var(--color-primary);
   margin: 0;
 }
 
@@ -75,7 +75,7 @@
 .charts-section h3 {
   font-size: 1.3rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 @media (max-width: 768px) {
