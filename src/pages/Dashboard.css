@@ -20,6 +20,37 @@
   gap: 2rem;
 }
 
+.status-summary {
+  margin-bottom: 1.5rem;
+}
+
+.status-item {
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+.status-item strong {
+  color: var(--color-primary);
+}
+
+.last-update {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+.empty-status {
+  margin-bottom: 1.5rem;
+}
+
+.empty-status p {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
 @media (max-width: 768px) {
   .summary-section {
     margin-bottom: 2rem;
@@ -36,5 +67,9 @@
   .quick-access {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .status-item {
+    font-size: 0.95rem;
   }
 }
