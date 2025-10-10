@@ -3,19 +3,16 @@ import { useState, useEffect } from 'react';
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import useWellbeingData from '../hooks/useWellbeingData';
+import recommendationService from '../services/recommendationService';
 import './Dashboard.css';
 
 function Dashboard() {
-  const [latestLog, setLatestLog] = useState(null);
+  const { latestLog, stats } = useWellbeingData();
   const [greeting, setGreeting] = useState('');
+  const [recommendation, setRecommendation] = useState(null);
 
   useEffect(() => {
-    // Get latest log from localStorage
-    const logs = JSON.parse(localStorage.getItem('training_logs') || '[]');
-    if (logs.length > 0) {
-      setLatestLog(logs[logs.length - 1]);
-    }
-
     // Set dynamic greeting based on time of day
     const hour = new Date().getHours();
     if (hour < 12) {
@@ -26,6 +23,12 @@ function Dashboard() {
       setGreeting('Добрый вечер!');
     }
   }, []);
+
+  useEffect(() => {
+    // Get workout recommendation based on latest log
+    const rec = recommendationService.getRecommendation(latestLog);
+    setRecommendation(rec);
+  }, [latestLog]);
 
   return (
     <Layout>
@@ -76,7 +79,39 @@ function Dashboard() {
 
         <Card>
           <h3>Тренировка на сегодня</h3>
-          <p>Скоро здесь появятся персонализированные рекомендации</p>
+          {recommendation && (
+            <div className="recommendation">
+              <div
+                className={`intensity-badge intensity-${recommendation.intensity}`}
+              >
+                {recommendation.intensity === 'low' && 'Низкая интенсивность'}
+                {recommendation.intensity === 'moderate' &&
+                  'Средняя интенсивность'}
+                {recommendation.intensity === 'high' && 'Высокая интенсивность'}
+                {recommendation.intensity === 'none' && 'Отдых'}
+              </div>
+              <h4>{recommendation.title}</h4>
+              <p>{recommendation.description}</p>
+              {recommendation.activities && (
+                <div className="activities-list">
+                  <strong>Рекомендуемые активности:</strong>
+                  <ul>
+                    {recommendation.activities.map((activity, index) => (
+                      <li key={index}>{activity}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {stats.logsThisWeek > 0 && (
+                <p className="motivation">
+                  💪{' '}
+                  {recommendationService.getMotivationMessage(
+                    stats.logsThisWeek
+                  )}
+                </p>
+              )}
+            </div>
+          )}
         </Card>
 
         <Card>

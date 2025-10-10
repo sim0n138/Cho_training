@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   LineChart,
@@ -18,44 +17,11 @@ import {
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import useWellbeingData from '../hooks/useWellbeingData';
 import './Stats.css';
 
 function Stats() {
-  const [logs, setLogs] = useState([]);
-  const [stats, setStats] = useState({
-    totalLogs: 0,
-    avgSleep: 0,
-    avgEnergy: 0,
-    logsThisWeek: 0,
-  });
-
-  useEffect(() => {
-    const storedLogs = JSON.parse(
-      localStorage.getItem('training_logs') || '[]'
-    );
-    setLogs(storedLogs);
-
-    if (storedLogs.length > 0) {
-      const totalLogs = storedLogs.length;
-      const avgSleep =
-        storedLogs.reduce((sum, log) => sum + log.sleepQuality, 0) / totalLogs;
-      const avgEnergy =
-        storedLogs.reduce((sum, log) => sum + log.energyLevel, 0) / totalLogs;
-
-      const oneWeekAgo = new Date();
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-      const logsThisWeek = storedLogs.filter(
-        (log) => new Date(log.date) >= oneWeekAgo
-      ).length;
-
-      setStats({
-        totalLogs,
-        avgSleep: avgSleep.toFixed(1),
-        avgEnergy: avgEnergy.toFixed(1),
-        logsThisWeek,
-      });
-    }
-  }, []);
+  const { logs, stats } = useWellbeingData();
 
   const chartData = logs.slice(-7).map((log) => ({
     date: new Date(log.date).toLocaleDateString('ru-RU', {
