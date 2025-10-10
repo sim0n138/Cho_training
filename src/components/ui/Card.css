@@ -1,24 +1,26 @@
 .card {
-  background-color: #ffffff;
+  background-color: var(--color-bg-secondary);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-md);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 .card h3 {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 1rem;
 }
 
 .card p {
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }

@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Button from '../components/ui/Button';
+import useWellbeingData from '../hooks/useWellbeingData';
 import './Log.css';
 
 function Log() {
   const navigate = useNavigate();
+  const { addLog } = useWellbeingData();
 
   const [sleepQuality, setSleepQuality] = useState('3');
   const [energyLevel, setEnergyLevel] = useState('3');
@@ -75,19 +77,16 @@ function Log() {
       musclePain: selectedMusclePain,
     };
 
-    // Get existing logs from localStorage
-    const existingLogs = JSON.parse(
-      localStorage.getItem('training_logs') || '[]'
-    );
+    // Add log using the hook
+    const success = addLog(logEntry);
 
-    // Add new log to array
-    existingLogs.push(logEntry);
-
-    // Save back to localStorage
-    localStorage.setItem('training_logs', JSON.stringify(existingLogs));
-
-    // Navigate to dashboard
-    navigate('/');
+    if (success) {
+      // Navigate to dashboard
+      navigate('/');
+    } else {
+      // Handle error (could show a notification)
+      console.error('Failed to save log entry');
+    }
   };
 
   return (

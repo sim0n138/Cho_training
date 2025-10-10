@@ -1,20 +1,50 @@
 .layout {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--color-bg-primary);
 }
 
 .header {
-  background-color: #ffffff;
+  background-color: var(--color-bg-secondary);
   padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
 }
 
 .header h1 {
   margin: 0;
   font-size: 2rem;
-  color: #333;
+  color: var(--color-text-primary);
   font-weight: 600;
+}
+
+.theme-toggle {
+  position: absolute;
+  right: 0;
+  background: none;
+  border: 2px solid var(--color-border-light);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--color-bg-tertiary);
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .navigation {
@@ -22,13 +52,13 @@
   justify-content: center;
   gap: 2rem;
   padding: 1.5rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .nav-link {
   text-decoration: none;
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -37,19 +67,19 @@
 }
 
 .nav-link:hover {
-  color: #4caf50;
-  background-color: #f0f0f0;
+  color: var(--color-primary);
+  background-color: var(--color-bg-hover);
 }
 
 .nav-link:focus {
-  outline: 2px solid #4caf50;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
 .nav-link.active {
-  color: #4caf50;
+  color: var(--color-primary);
   font-weight: 600;
-  background-color: #f0f9f0;
+  background-color: var(--color-primary-light);
 }
 
 .main-content {
@@ -63,8 +93,18 @@
     padding: 1.5rem;
   }
 
+  .header-content {
+    gap: 1rem;
+  }
+
   .header h1 {
     font-size: 1.5rem;
+  }
+
+  .theme-toggle {
+    position: static;
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
   }
 
   .navigation {
