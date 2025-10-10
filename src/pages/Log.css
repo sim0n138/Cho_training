@@ -2,44 +2,51 @@
   max-width: 800px;
   margin: 0 auto;
   background-color: var(--color-bg-secondary);
-  padding: 3rem;
-  border-radius: 8px;
-  box-shadow: var(--shadow-md);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border-light);
 }
 
 .content-wrapper h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
   color: var(--color-text-primary);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-sm);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .description {
   color: var(--color-text-secondary);
   font-size: 1.1rem;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-xl);
+  font-weight: 500;
 }
 
 .wellbeing-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--spacing-xl);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--spacing-md);
 }
 
 .form-label {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text-primary);
 }
 
 .radio-group {
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-md);
   align-items: center;
 }
 
@@ -47,32 +54,37 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 0.75rem 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
   border: 2px solid var(--color-border-light);
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  border-radius: var(--radius-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: var(--color-bg-tertiary);
+  box-shadow: var(--shadow-sm);
 }
 
 .radio-option:hover {
   border-color: var(--color-primary);
   background-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .radio-option input[type='radio'] {
-  margin-right: 0.5rem;
+  margin-right: var(--spacing-sm);
   cursor: pointer;
+  accent-color: var(--color-primary);
 }
 
 .radio-option input[type='radio']:checked + .radio-label {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-primary);
 }
 
 .radio-label {
   font-size: 1rem;
   color: var(--color-text-primary);
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
 }
 
 .scale-labels {
@@ -84,18 +96,21 @@
 }
 
 .form-select {
-  padding: 0.75rem 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: 1rem;
+  font-weight: 500;
   border: 2px solid var(--color-border-light);
-  border-radius: 8px;
-  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-tertiary);
   color: var(--color-text-primary);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
 }
 
 .form-select:hover {
   border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
 }
 
 .form-select:focus {
@@ -107,38 +122,39 @@
 .checkbox-group {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--spacing-sm);
 }
 
 .checkbox-option {
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 0.75rem 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
   border: 2px solid var(--color-border-light);
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  border-radius: var(--radius-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: var(--color-bg-tertiary);
+  box-shadow: var(--shadow-sm);
 }
 
 .checkbox-option:hover {
   border-color: var(--color-primary);
   background-color: var(--color-primary-light);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
 }
 
 .checkbox-option input[type='checkbox'] {
-  margin-right: 0.75rem;
+  margin-right: var(--spacing-sm);
   cursor: pointer;
-  width: 18px;
-  height: 18px;
-}
-
-.checkbox-option input[type='checkbox']:checked {
+  width: 20px;
+  height: 20px;
   accent-color: var(--color-primary);
 }
 
 .checkbox-option span {
   font-size: 1rem;
+  font-weight: 500;
   color: var(--color-text-primary);
 }
 
