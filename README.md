@@ -34,6 +34,7 @@ A personal training tracker web application to help users systematize their work
 - **Accessibility**: ARIA attributes, semantic HTML, keyboard navigation support
 - **Responsive Design**: Mobile-friendly layouts with media queries
 - **Code Quality**: ESLint + Prettier configuration for consistent code style
+- **Testing**: Comprehensive test suite with 57 tests (Vitest + React Testing Library)
 
 ## Tech Stack
 
@@ -43,6 +44,7 @@ A personal training tracker web application to help users systematize their work
 - **Charts**: Recharts (for data visualization)
 - **Type Checking**: PropTypes
 - **Code Quality**: ESLint + Prettier
+- **Testing**: Vitest + @testing-library/react
 - **Styling**: CSS3 with responsive design
 
 ## Getting Started
@@ -69,6 +71,15 @@ npm run lint
 
 # Format code with Prettier
 npm run format
+
+# Run tests
+npm test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage (after installing coverage tool)
+npm run test:coverage
 ```
 
 ### Development
@@ -95,8 +106,16 @@ src/
 │   ├── Log.css
 │   ├── Program.jsx          # Workout program generator
 │   ├── Program.css
+│   ├── Program.test.js      # Program generator tests
 │   ├── Stats.jsx            # Statistics and charts
 │   └── Stats.css
+├── services/
+│   ├── recommendationService.js      # Workout recommendation logic
+│   ├── recommendationService.test.js # 19 tests
+│   ├── storageService.js             # localStorage operations
+│   └── storageService.test.js        # 16 tests
+├── test/
+│   └── setup.js             # Test configuration
 ├── App.jsx                  # Main app component with routing
 ├── main.jsx                 # Application entry point
 └── index.css                # Global styles
@@ -122,6 +141,36 @@ All exercises are:
 
 See [Exercise Database Documentation](docs/EXERCISE_DATABASE.md) for details.
 
+## Testing
+
+The project includes a comprehensive test suite with **57 tests** covering:
+
+- **recommendationService**: 19 tests
+  - All recommendation scenarios (rest, recovery, moderate, intensive)
+  - Motivation message generation
+  - Edge cases and boundary conditions
+
+- **storageService**: 16 tests
+  - CRUD operations on localStorage
+  - Date-based filtering
+  - Statistics calculations
+  - Error handling
+
+- **Program Generator Logic**: 22 tests
+  - Exercise packing algorithm
+  - Pain area filtering
+  - Most frequent area detection
+  - RPE-based volume adjustments
+  - Program history management
+
+### Test Statistics
+- **Total Tests**: 57
+- **Pass Rate**: 100%
+- **Framework**: Vitest
+- **Libraries**: React Testing Library, Jest DOM
+
+See [Code Analysis Report](docs/CODE_ANALYSIS.md) for detailed testing documentation and code quality assessment.
+
 ## Future Enhancements
 
 - ~~Training programs and workout templates~~ ✅ **Implemented as Program Generator**
@@ -139,6 +188,8 @@ See [Exercise Database Documentation](docs/EXERCISE_DATABASE.md) for details.
 - Follow the existing code structure and naming conventions
 - Run `npm run format` before committing to ensure consistent code style
 - Ensure `npm run lint` passes without errors
+- **Run `npm test` to ensure all tests pass**
+- **Add tests for new features** (see existing test files for examples)
 - Test responsive design on multiple screen sizes
 - Add PropTypes to all new components
 - Use semantic HTML and ARIA attributes for accessibility
