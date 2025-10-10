@@ -3,65 +3,8 @@ import PropTypes from 'prop-types';
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import { EXERCISES, PAIN_AREA_MAP } from '../data/exercises';
 import './Program.css';
-
-// Exercise data structure
-const EXERCISES = {
-  stretch: [
-    { id: 's1', name: 'Растяжка ног', duration: 5, level: 1, areas: ['legs'] },
-    {
-      id: 's2',
-      name: 'Растяжка спины',
-      duration: 7,
-      level: 1,
-      areas: ['back'],
-    },
-    { id: 's3', name: 'Растяжка рук', duration: 5, level: 1, areas: ['arms'] },
-    {
-      id: 's4',
-      name: 'Боковые наклоны',
-      duration: 6,
-      level: 2,
-      areas: ['back'],
-    },
-  ],
-  lfc: [
-    {
-      id: 'l1',
-      name: 'ЛФК для спины',
-      duration: 10,
-      level: 1,
-      areas: ['back'],
-    },
-    { id: 'l2', name: 'ЛФК для ног', duration: 12, level: 1, areas: ['legs'] },
-    { id: 'l3', name: 'ЛФК для шеи', duration: 8, level: 2, areas: ['neck'] },
-  ],
-  meditation: [
-    {
-      id: 'm1',
-      name: 'Дыхательные упражнения',
-      duration: 5,
-      level: 1,
-      areas: [],
-    },
-    {
-      id: 'm2',
-      name: 'Медитация осознанности',
-      duration: 10,
-      level: 1,
-      areas: [],
-    },
-  ],
-};
-
-// Pain area mapping
-const PAIN_AREA_MAP = {
-  Ноги: ['legs'],
-  Спина: ['back'],
-  Руки: ['arms'],
-  Грудь: ['chest'],
-  'Всё тело': ['legs', 'back', 'arms', 'chest'],
-};
 
 // Unified tolerance for all categories (P0: fix #2)
 const MINUTES_TOLERANCE = 0.1; // 10% tolerance for all
