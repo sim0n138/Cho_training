@@ -1,4 +1,5 @@
 // Recommendation service for workout suggestions based on wellbeing data
+import { WELLBEING_THRESHOLDS } from '../constants/wellbeingThresholds';
 
 const recommendationService = {
   // Generate workout recommendation based on latest log
@@ -16,10 +17,15 @@ const recommendationService = {
     const { sleepQuality, energyLevel, musclePain } = latestLog;
 
     // Check for significant muscle pain
-    const hasSignificantPain = musclePain && musclePain.length >= 3;
+    const hasSignificantPain =
+      musclePain &&
+      musclePain.length >= WELLBEING_THRESHOLDS.PAIN.SIGNIFICANT_COUNT;
 
     // Low energy or poor sleep - recommend rest or light activity
-    if (energyLevel <= 2 || sleepQuality <= 2) {
+    if (
+      energyLevel <= WELLBEING_THRESHOLDS.ENERGY_LEVEL.LOW ||
+      sleepQuality <= WELLBEING_THRESHOLDS.SLEEP_QUALITY.POOR
+    ) {
       return {
         type: 'rest',
         title: 'Отдых и восстановление',
@@ -48,7 +54,10 @@ const recommendationService = {
     }
 
     // Moderate energy - recommend moderate intensity
-    if (energyLevel === 3 || sleepQuality === 3) {
+    if (
+      energyLevel === WELLBEING_THRESHOLDS.ENERGY_LEVEL.MODERATE ||
+      sleepQuality === WELLBEING_THRESHOLDS.SLEEP_QUALITY.MODERATE
+    ) {
       const painAreas = musclePain || [];
       const avoidAreas =
         painAreas.length > 0
@@ -69,7 +78,10 @@ const recommendationService = {
     }
 
     // High energy and good sleep - recommend intensive workout
-    if (energyLevel >= 4 && sleepQuality >= 4) {
+    if (
+      energyLevel >= WELLBEING_THRESHOLDS.ENERGY_LEVEL.HIGH &&
+      sleepQuality >= WELLBEING_THRESHOLDS.SLEEP_QUALITY.GOOD
+    ) {
       const painAreas = musclePain || [];
       const recommendation =
         painAreas.length === 0
