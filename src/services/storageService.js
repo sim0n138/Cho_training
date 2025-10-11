@@ -1,4 +1,6 @@
-// Storage service to encapsulate all localStorage operations
+/**
+ * Storage service to encapsulate all localStorage operations
+ */
 const STORAGE_KEY = 'training_logs';
 
 /**
@@ -70,7 +72,10 @@ const cleanupOldLogs = () => {
 };
 
 const storageService = {
-  // Get all logs from localStorage
+  /**
+   * Get all logs from localStorage
+   * @returns {Array<Object>} Массив записей о самочувствии
+   */
   getLogs: () => {
     try {
       const logs = localStorage.getItem(STORAGE_KEY);
@@ -81,13 +86,20 @@ const storageService = {
     }
   },
 
-  // Get the latest log entry
+  /**
+   * Get the latest log entry
+   * @returns {Object|null} Последняя запись или null
+   */
   getLatestLog: () => {
     const logs = storageService.getLogs();
     return logs.length > 0 ? logs[logs.length - 1] : null;
   },
 
-  // Add a new log entry
+  /**
+   * Add a new log entry
+   * @param {Object} logEntry - Запись о самочувствии
+   * @returns {boolean} true если успешно сохранено
+   */
   addLog: (logEntry) => {
     try {
       // Check storage availability
@@ -127,7 +139,11 @@ const storageService = {
     }
   },
 
-  // Get logs from the last N days
+  /**
+   * Get logs from the last N days
+   * @param {number} days - Количество дней
+   * @returns {Array<Object>} Отфильтрованные записи
+   */
   getLogsFromLastDays: (days) => {
     const logs = storageService.getLogs();
     const cutoffDate = new Date();
@@ -136,7 +152,10 @@ const storageService = {
     return logs.filter((log) => new Date(log.date) >= cutoffDate);
   },
 
-  // Get statistics from all logs
+  /**
+   * Get statistics from all logs
+   * @returns {Object} Статистика по записям
+   */
   getStatistics: () => {
     const logs = storageService.getLogs();
     const logsThisWeek = storageService.getLogsFromLastDays(7);
@@ -163,7 +182,10 @@ const storageService = {
     };
   },
 
-  // Clear all logs (for testing/admin purposes)
+  /**
+   * Clear all logs (for testing/admin purposes)
+   * @returns {boolean} true если успешно очищено
+   */
   clearLogs: () => {
     try {
       localStorage.removeItem(STORAGE_KEY);
@@ -174,7 +196,10 @@ const storageService = {
     }
   },
 
-  // Check if storage is available and has space
+  /**
+   * Check if storage is available and has space
+   * @returns {boolean} true если хранилище доступно и есть место
+   */
   isStorageHealthy: () => {
     return checkStorageAvailable() && hasStorageSpace();
   },
