@@ -1,7 +1,16 @@
-// Recommendation service for workout suggestions based on wellbeing data
+/**
+ * Recommendation service for workout suggestions based on wellbeing data
+ * @typedef {import('../types/index.js').WellbeingLog} WellbeingLog
+ * @typedef {import('../types/index.js').Recommendation} Recommendation
+ */
+import { WELLBEING_THRESHOLDS } from '../constants/wellbeingThresholds';
 
 const recommendationService = {
-  // Generate workout recommendation based on latest log
+  /**
+   * Generate workout recommendation based on latest log
+   * @param {WellbeingLog|null} latestLog - Последняя запись о самочувствии
+   * @returns {Recommendation} Рекомендация по тренировке
+   */
   getRecommendation: (latestLog) => {
     if (!latestLog) {
       return {
@@ -16,10 +25,15 @@ const recommendationService = {
     const { sleepQuality, energyLevel, musclePain } = latestLog;
 
     // Check for significant muscle pain
-    const hasSignificantPain = musclePain && musclePain.length >= 3;
+    const hasSignificantPain =
+      musclePain &&
+      musclePain.length >= WELLBEING_THRESHOLDS.PAIN.SIGNIFICANT_COUNT;
 
     // Low energy or poor sleep - recommend rest or light activity
-    if (energyLevel <= 2 || sleepQuality <= 2) {
+    if (
+      energyLevel <= WELLBEING_THRESHOLDS.ENERGY_LEVEL.LOW ||
+      sleepQuality <= WELLBEING_THRESHOLDS.SLEEP_QUALITY.POOR
+    ) {
       return {
         type: 'rest',
         title: 'Отдых и восстановление',
@@ -48,7 +62,10 @@ const recommendationService = {
     }
 
     // Moderate energy - recommend moderate intensity
-    if (energyLevel === 3 || sleepQuality === 3) {
+    if (
+      energyLevel === WELLBEING_THRESHOLDS.ENERGY_LEVEL.MODERATE ||
+      sleepQuality === WELLBEING_THRESHOLDS.SLEEP_QUALITY.MODERATE
+    ) {
       const painAreas = musclePain || [];
       const avoidAreas =
         painAreas.length > 0
@@ -69,7 +86,10 @@ const recommendationService = {
     }
 
     // High energy and good sleep - recommend intensive workout
-    if (energyLevel >= 4 && sleepQuality >= 4) {
+    if (
+      energyLevel >= WELLBEING_THRESHOLDS.ENERGY_LEVEL.HIGH &&
+      sleepQuality >= WELLBEING_THRESHOLDS.SLEEP_QUALITY.GOOD
+    ) {
       const painAreas = musclePain || [];
       const recommendation =
         painAreas.length === 0
@@ -101,7 +121,11 @@ const recommendationService = {
     };
   },
 
-  // Get motivation message based on recent activity
+  /**
+   * Get motivation message based on recent activity
+   * @param {number} logsThisWeek - Количество записей за неделю
+   * @returns {string} Мотивационное сообщение
+   */
   getMotivationMessage: (logsThisWeek) => {
     if (logsThisWeek === 0) {
       return 'Начните отслеживать своё самочувствие для более точных рекомендаций!';

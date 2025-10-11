@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Button from '../components/ui/Button';
 import useWellbeingData from '../hooks/useWellbeingData';
+import validationService from '../services/validationService';
 import './Log.css';
 
 function Log() {
@@ -76,6 +77,14 @@ function Log() {
       mood,
       musclePain: selectedMusclePain,
     };
+
+    // Validate entry before saving
+    const validation = validationService.validateLogEntry(logEntry);
+    if (!validation.isValid) {
+      console.error('Validation errors:', validation.errors);
+      setErrors(validation.errors);
+      return;
+    }
 
     // Add log using the hook
     const success = addLog(logEntry);
