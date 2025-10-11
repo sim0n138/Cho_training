@@ -1,5 +1,6 @@
 /**
  * Storage service to encapsulate all localStorage operations
+ * @typedef {import('../types/index.js').WellbeingLog} WellbeingLog
  */
 const STORAGE_KEY = 'training_logs';
 
@@ -74,7 +75,7 @@ const cleanupOldLogs = () => {
 const storageService = {
   /**
    * Get all logs from localStorage
-   * @returns {Array<Object>} Массив записей о самочувствии
+   * @returns {WellbeingLog[]} Массив записей о самочувствии
    */
   getLogs: () => {
     try {
@@ -88,7 +89,7 @@ const storageService = {
 
   /**
    * Get the latest log entry
-   * @returns {Object|null} Последняя запись или null
+   * @returns {WellbeingLog|null} Последняя запись или null
    */
   getLatestLog: () => {
     const logs = storageService.getLogs();
@@ -97,7 +98,7 @@ const storageService = {
 
   /**
    * Add a new log entry
-   * @param {Object} logEntry - Запись о самочувствии
+   * @param {WellbeingLog} logEntry - Запись о самочувствии
    * @returns {boolean} true если успешно сохранено
    */
   addLog: (logEntry) => {
@@ -142,7 +143,7 @@ const storageService = {
   /**
    * Get logs from the last N days
    * @param {number} days - Количество дней
-   * @returns {Array<Object>} Отфильтрованные записи
+   * @returns {WellbeingLog[]} Отфильтрованные записи
    */
   getLogsFromLastDays: (days) => {
     const logs = storageService.getLogs();

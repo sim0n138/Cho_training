@@ -1,25 +1,9 @@
 /**
  * Recommendation service for workout suggestions based on wellbeing data
+ * @typedef {import('../types/index.js').WellbeingLog} WellbeingLog
+ * @typedef {import('../types/index.js').Recommendation} Recommendation
  */
 import { WELLBEING_THRESHOLDS } from '../constants/wellbeingThresholds';
-
-/**
- * @typedef {Object} WellbeingLog
- * @property {number} sleepQuality - Качество сна (1-5)
- * @property {number} energyLevel - Уровень энергии (1-5)
- * @property {string[]} musclePain - Массив областей с болью
- * @property {string} mood - Настроение
- * @property {string} date - Дата в формате ISO
- */
-
-/**
- * @typedef {Object} Recommendation
- * @property {string} type - Тип рекомендации (rest|recovery|moderate|intensive)
- * @property {string} title - Заголовок
- * @property {string} description - Описание
- * @property {string} intensity - Интенсивность (none|low|moderate|high)
- * @property {string[]} [activities] - Рекомендуемые активности
- */
 
 const recommendationService = {
   /**
