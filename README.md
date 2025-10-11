@@ -2,6 +2,16 @@
 
 A personal training tracker web application to help users systematize their workouts, track wellbeing, and monitor progress.
 
+## 📋 Code Review Available
+
+**🆕 Comprehensive code review with improvement recommendations is now available!**
+
+- **[Краткое резюме (RU)](docs/REVIEW_SUMMARY_RU.md)** - Quick summary of key issues
+- **[Полный код-ревью (RU)](docs/CODE_REVIEW_RU.md)** - Detailed analysis with 10 improvement points
+- **[Примеры реализации (RU)](docs/IMPLEMENTATION_EXAMPLES.md)** - Ready-to-use code examples
+
+**Overall Rating**: ⭐⭐⭐⭐ (4/5) - Good code quality with clear improvement path
+
 ## Features
 
 ### ✅ Implemented Features
