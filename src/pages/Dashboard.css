@@ -1,64 +1,131 @@
-.summary-section {
-  text-align: center;
+/* Hero Section */
+.hero-section {
   margin-bottom: var(--spacing-2xl);
 }
 
-.summary-section h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
+.hero-title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-inverse);
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.hero-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-inverse);
+  opacity: 0.95;
+  margin: 0;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
-  background: linear-gradient(
-    135deg,
-    var(--color-primary) 0%,
-    var(--color-accent) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: var(--spacing-lg);
 }
 
-.summary-section p {
-  font-size: 1.2rem;
-  color: var(--color-text-secondary);
-  font-weight: 500;
+/* Recommendations Section */
+.recommendations-section {
+  margin-bottom: var(--spacing-2xl);
 }
 
-.quick-access {
+/* Quick Actions */
+.quick-actions {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--spacing-xl);
 }
 
-.status-summary {
-  margin-bottom: 1.5rem;
+.action-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  line-height: 1;
+}
+
+.actions-grid h4 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.actions-grid p {
+  margin-bottom: var(--spacing-lg);
+  min-height: 2.5rem;
+}
+
+/* Status Section */
+.status-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
 }
 
 .status-item {
-  margin: 0.75rem 0;
-  font-size: 1rem;
-  color: var(--color-text-primary);
-  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
 }
 
-.status-item strong {
-  color: var(--color-primary);
+.status-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.status-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.status-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1;
+}
+
+.status-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.status-value {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
 }
 
 .last-update {
-  margin-top: 1rem;
-  font-size: 0.9rem;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+  font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
   font-style: italic;
+  text-align: center;
 }
 
 .empty-status {
-  margin-bottom: 1.5rem;
+  text-align: center;
+  padding: var(--spacing-2xl);
 }
 
 .empty-status p {
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
 }
 
 .recommendation {
@@ -144,14 +211,14 @@
   box-shadow: var(--shadow-sm);
 }
 
-.data-management {
-  margin-top: var(--spacing-2xl);
+.data-section {
+  margin-bottom: var(--spacing-2xl);
 }
 
 .data-actions {
   display: flex;
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   flex-wrap: wrap;
 }
 
@@ -185,25 +252,32 @@
 }
 
 @media (max-width: 768px) {
-  .summary-section {
-    margin-bottom: 2rem;
+  .hero-title {
+    font-size: var(--font-size-2xl);
   }
 
-  .summary-section h2 {
-    font-size: 1.5rem;
+  .hero-subtitle {
+    font-size: var(--font-size-base);
   }
 
-  .summary-section p {
-    font-size: 1rem;
+  .section-title {
+    font-size: var(--font-size-xl);
   }
 
-  .quick-access {
+  .actions-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
 
-  .status-item {
-    font-size: 0.95rem;
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-icon {
+    font-size: 2.5rem;
+  }
+
+  .status-icon {
+    font-size: 1.5rem;
   }
 
   .data-actions {

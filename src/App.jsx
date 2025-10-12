@@ -8,6 +8,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Log = lazy(() => import('./pages/Log'));
 const Stats = lazy(() => import('./pages/Stats'));
 const Program = lazy(() => import('./pages/Program'));
+const Profile = lazy(() => import('./pages/Profile'));
 
 // Компонент для отображения во время загрузки
 function LoadingFallback() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/log" element={<Log />} />
             <Route path="/stats" element={<Stats />} />
             <Route path="/program" element={<Program />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Suspense>
       </Router>
