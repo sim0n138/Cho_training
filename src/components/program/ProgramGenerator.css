@@ -125,7 +125,7 @@
   .program-summary {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .settings-grid {
     gap: var(--spacing-lg);
   }

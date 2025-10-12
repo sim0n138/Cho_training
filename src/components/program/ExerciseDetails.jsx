@@ -48,14 +48,23 @@ function ExerciseDetails({ exercise, onClose }) {
 
   return (
     <div className="exercise-details-backdrop" onClick={handleBackdropClick}>
-      <div className="exercise-details-modal" role="dialog" aria-modal="true" aria-labelledby="exercise-title">
+      <div
+        className="exercise-details-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="exercise-title"
+      >
         <button className="close-button" onClick={onClose} aria-label="Закрыть">
           ✕
         </button>
-        
+
         <div className="exercise-details-header">
-          <span className="exercise-type-badge">{getTypeLabel(exercise.id)}</span>
-          <h2 id="exercise-title" className="exercise-title">{exercise.name}</h2>
+          <span className="exercise-type-badge">
+            {getTypeLabel(exercise.id)}
+          </span>
+          <h2 id="exercise-title" className="exercise-title">
+            {exercise.name}
+          </h2>
         </div>
 
         <div className="exercise-details-content">
@@ -66,7 +75,9 @@ function ExerciseDetails({ exercise, onClose }) {
             </div>
             <div className="info-item">
               <span className="info-label">Уровень</span>
-              <span className="info-value">{getLevelLabel(exercise.level)}</span>
+              <span className="info-value">
+                {getLevelLabel(exercise.level)}
+              </span>
             </div>
           </div>
 

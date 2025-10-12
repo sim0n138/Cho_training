@@ -74,19 +74,19 @@
   .goal-options {
     grid-template-columns: 1fr;
   }
-  
+
   .goal-option {
     padding: var(--spacing-md);
   }
-  
+
   .goal-icon {
     font-size: 1.5rem;
   }
-  
+
   .goal-name {
     font-size: var(--font-size-sm);
   }
-  
+
   .goal-description {
     font-size: var(--font-size-xs);
   }

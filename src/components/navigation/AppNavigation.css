@@ -67,15 +67,15 @@
   .app-navigation {
     gap: var(--spacing-xs);
   }
-  
+
   .nav-item {
     padding: var(--spacing-sm) var(--spacing-md);
   }
-  
+
   .nav-icon {
     font-size: 1.25rem;
   }
-  
+
   .nav-label {
     font-size: var(--font-size-xs);
   }
@@ -87,22 +87,22 @@
     padding: var(--spacing-md);
     gap: var(--spacing-xs);
   }
-  
+
   .nav-item {
     flex-direction: row;
     padding: var(--spacing-sm);
     min-width: 48px;
     justify-content: center;
   }
-  
+
   .nav-label {
     display: none;
   }
-  
+
   .nav-icon {
     font-size: 1.5rem;
   }
-  
+
   .nav-item.active::after {
     width: 80%;
   }
@@ -114,11 +114,11 @@
     gap: 2px;
     padding: var(--spacing-sm);
   }
-  
+
   .nav-item {
     padding: var(--spacing-xs);
   }
-  
+
   .nav-icon {
     font-size: 1.25rem;
   }

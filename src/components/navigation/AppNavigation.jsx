@@ -50,7 +50,11 @@ function AppNavigation({ className = '' }) {
   };
 
   return (
-    <nav className={`app-navigation ${className}`.trim()} role="navigation" aria-label="Main navigation">
+    <nav
+      className={`app-navigation ${className}`.trim()}
+      role="navigation"
+      aria-label="Main navigation"
+    >
       {navItems.map((item) => (
         <Link
           key={item.path}

@@ -51,7 +51,7 @@
   .breadcrumbs {
     padding: var(--spacing-sm) var(--spacing-md);
   }
-  
+
   .breadcrumb-item {
     font-size: var(--font-size-xs);
   }

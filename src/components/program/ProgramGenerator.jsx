@@ -9,7 +9,11 @@ import PainAreaSelector from './PainAreaSelector';
 import ExerciseList from './ExerciseList';
 import WorkoutGoalSelector from './WorkoutGoalSelector';
 import programService from '../../services/programService';
-import { STORAGE_KEYS, DEFAULT_DURATION, DURATION_OPTIONS } from '../../constants/index';
+import {
+  STORAGE_KEYS,
+  DEFAULT_DURATION,
+  DURATION_OPTIONS,
+} from '../../constants/index';
 import './ProgramGenerator.css';
 
 /**
@@ -106,8 +110,8 @@ function ProgramGenerator({ useWellbeingData = true }) {
     <div className="setup-content">
       <Card>
         <h3>Настройки тренировки</h3>
-        
-        <WorkoutGoalSelector 
+
+        <WorkoutGoalSelector
           selectedGoal={workoutGoal}
           onSelect={setWorkoutGoal}
         />
@@ -127,14 +131,22 @@ function ProgramGenerator({ useWellbeingData = true }) {
 
           <div className="setting-item">
             <label className="setting-label">Уровень нагрузки (RPE)</label>
-            <Button onClick={() => setShowRpeModal(true)} variant="outline" className="setting-button">
+            <Button
+              onClick={() => setShowRpeModal(true)}
+              variant="outline"
+              className="setting-button"
+            >
               {rpe} / 10
             </Button>
           </div>
 
           <div className="setting-item">
             <label className="setting-label">Области с болью</label>
-            <Button onClick={() => setShowPainModal(true)} variant="outline" className="setting-button">
+            <Button
+              onClick={() => setShowPainModal(true)}
+              variant="outline"
+              className="setting-button"
+            >
               {painAreas.length === 0 ? 'Нет' : `${painAreas.length} выбрано`}
             </Button>
           </div>
@@ -181,7 +193,10 @@ function ProgramGenerator({ useWellbeingData = true }) {
       {!isGenerating && !program && (
         <Card>
           <div className="no-program">
-            <p>Настройте параметры и сгенерируйте программу во вкладке "Настройка"</p>
+            <p>
+              Настройте параметры и сгенерируйте программу во вкладке
+              "Настройка"
+            </p>
           </div>
         </Card>
       )}
@@ -242,18 +257,28 @@ function ProgramGenerator({ useWellbeingData = true }) {
       <Card hoverable={false}>
         <h2>Генератор программы тренировок</h2>
         <p className="generator-description">
-          Создайте персонализированную программу на основе вашего состояния и целей
+          Создайте персонализированную программу на основе вашего состояния и
+          целей
         </p>
       </Card>
 
       <Tabs
         tabs={[
-          { id: 'setup', label: 'Настройка', icon: '⚙️', content: setupContent },
-          { id: 'program', label: 'Программа', icon: '📋', content: programContent },
+          {
+            id: 'setup',
+            label: 'Настройка',
+            icon: '⚙️',
+            content: setupContent,
+          },
+          {
+            id: 'program',
+            label: 'Программа',
+            icon: '📋',
+            content: programContent,
+          },
         ]}
         defaultTab="setup"
       />
-
 
       {showRpeModal && (
         <RpeSelector

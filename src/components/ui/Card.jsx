@@ -9,8 +9,15 @@ import './Card.css';
  * @param {boolean} props.hoverable - Enable hover effects
  * @param {string} props.className - Additional CSS classes
  */
-function Card({ children, variant = 'default', hoverable = true, className = '', ...props }) {
-  const cardClass = `card card--${variant} ${hoverable ? 'card--hoverable' : ''} ${className}`.trim();
+function Card({
+  children,
+  variant = 'default',
+  hoverable = true,
+  className = '',
+  ...props
+}) {
+  const cardClass =
+    `card card--${variant} ${hoverable ? 'card--hoverable' : ''} ${className}`.trim();
 
   return (
     <div className={cardClass} {...props}>

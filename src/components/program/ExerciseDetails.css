@@ -196,24 +196,24 @@
   .exercise-details-backdrop {
     padding: 0;
   }
-  
+
   .exercise-details-modal {
     max-height: 100vh;
     border-radius: 0;
   }
-  
+
   .exercise-details-header {
     padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
   }
-  
+
   .exercise-title {
     font-size: var(--font-size-2xl);
   }
-  
+
   .exercise-details-content {
     padding: var(--spacing-lg);
   }
-  
+
   .exercise-info-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);

@@ -83,7 +83,9 @@ export const WORKOUT_GOALS = {
  * @returns {Object|null} Workout goal object or null
  */
 export const getWorkoutGoal = (goalId) => {
-  return Object.values(WORKOUT_GOALS).find((goal) => goal.id === goalId) || null;
+  return (
+    Object.values(WORKOUT_GOALS).find((goal) => goal.id === goalId) || null
+  );
 };
 
 /**

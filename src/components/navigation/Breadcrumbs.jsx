@@ -19,10 +19,8 @@ function Breadcrumbs({ className = '' }) {
 
   // Generate breadcrumb items from current path
   const pathSegments = location.pathname.split('/').filter(Boolean);
-  
-  const breadcrumbs = [
-    { path: '/', name: routeNames['/'] },
-  ];
+
+  const breadcrumbs = [{ path: '/', name: routeNames['/'] }];
 
   // Build breadcrumb trail
   let currentPath = '';
