@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useTranslation } from '../../i18n/useTranslation.js';
 import './AppNavigation.css';
 
 /**
@@ -8,37 +9,38 @@ import './AppNavigation.css';
  */
 function AppNavigation({ className = '' }) {
   const location = useLocation();
+  const { t } = useTranslation();
 
   const navItems = [
     {
       path: '/',
-      label: 'Дашборд',
+      label: t('nav.dashboard'),
       icon: '📊',
-      ariaLabel: 'Dashboard',
+      ariaLabel: t('nav.dashboard'),
     },
     {
       path: '/log',
-      label: 'Журнал',
+      label: t('nav.log'),
       icon: '📝',
-      ariaLabel: 'Log Wellbeing',
+      ariaLabel: t('nav.log'),
     },
     {
       path: '/program',
-      label: 'Тренировки',
+      label: t('nav.program'),
       icon: '💪',
-      ariaLabel: 'Workout Program',
+      ariaLabel: t('nav.program'),
     },
     {
       path: '/stats',
-      label: 'Статистика',
+      label: t('nav.stats'),
       icon: '📈',
-      ariaLabel: 'Statistics',
+      ariaLabel: t('nav.stats'),
     },
     {
       path: '/profile',
-      label: 'Профиль',
+      label: t('nav.profile'),
       icon: '👤',
-      ariaLabel: 'Profile',
+      ariaLabel: t('nav.profile'),
     },
   ];
 

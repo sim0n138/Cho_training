@@ -107,17 +107,16 @@ const storageService = {
    * @returns {boolean} true если успешно сохранено
    */
   addLog: (logEntry) => {
+    // Sanitize and validate the log entry before storage
+    const validation = validationService.sanitizeAndValidateLogEntry(logEntry);
+    if (!validation.isValid) {
+      console.error('Invalid log entry:', validation.errors);
+      return false;
+    }
+
+    const sanitizedEntry = validation.sanitizedEntry;
+
     try {
-      // Sanitize and validate the log entry before storage
-      const validation =
-        validationService.sanitizeAndValidateLogEntry(logEntry);
-      if (!validation.isValid) {
-        console.error('Invalid log entry:', validation.errors);
-        return false;
-      }
-
-      const sanitizedEntry = validation.sanitizedEntry;
-
       // Check storage availability
       if (!hasStorageSpace()) {
         console.warn('Storage space low, attempting cleanup');

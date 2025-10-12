@@ -74,7 +74,7 @@ describe('sanitize', () => {
     });
 
     it('should escape quotes', () => {
-      const input = "It's a \"test\"";
+      const input = 'It\'s a "test"';
       const result = escapeHtml(input);
       expect(result).toBe('It&#x27;s a &quot;test&quot;');
     });

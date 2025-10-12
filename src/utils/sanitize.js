@@ -90,7 +90,7 @@ export const sanitizeJSON = (jsonString) => {
       isValid: true,
       data: parsed,
     };
-  } catch (error) {
+  } catch {
     return {
       isValid: false,
       error: 'Invalid JSON format',

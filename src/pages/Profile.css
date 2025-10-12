@@ -22,8 +22,29 @@
   margin-bottom: var(--spacing-sm);
 }
 
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--color-background-light, #f9f9f9);
+  border-radius: 8px;
+  margin-bottom: var(--spacing-md);
+}
+
+.setting-item label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
 @media (max-width: 768px) {
   .profile-page {
     padding: var(--spacing-md);
+  }
+
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
   }
 }
