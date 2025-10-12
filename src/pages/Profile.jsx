@@ -1,6 +1,6 @@
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
-import packageJson from '../../package.json';
+import { APP_VERSION, APP_NAME } from '../constants';
 import './Profile.css';
 
 /**
@@ -17,9 +17,9 @@ function Profile() {
           <div className="profile-section">
             <h3>О приложении</h3>
             <p>
-              Cho Training - это персональный трекер тренировок и самочувствия.
+              {APP_NAME} - это персональный трекер тренировок и самочувствия.
             </p>
-            <p>Версия: {packageJson.version}</p>
+            <p>Версия: {APP_VERSION}</p>
           </div>
         </Card>
       </div>
