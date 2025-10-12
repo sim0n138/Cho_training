@@ -2,7 +2,9 @@
  * Storage service to encapsulate all localStorage operations
  * @typedef {import('../types/index.js').WellbeingLog} WellbeingLog
  */
-const STORAGE_KEY = 'training_logs';
+import { STORAGE_KEYS, STORAGE_CONFIG } from '../constants/index.js';
+
+const STORAGE_KEY = STORAGE_KEYS.TRAINING_LOGS;
 
 /**
  * Check if localStorage has available quota
@@ -10,7 +12,7 @@ const STORAGE_KEY = 'training_logs';
  */
 const checkStorageAvailable = () => {
   try {
-    const test = '__storage_test__';
+    const test = STORAGE_CONFIG.STORAGE_TEST_KEY;
     localStorage.setItem(test, test);
     localStorage.removeItem(test);
     return true;
@@ -36,15 +38,15 @@ const hasStorageSpace = () => {
       }
     }
 
-    // If we're using more than 4MB (out of typical 5-10MB), warn
+    // If we're using more than configured MB (out of typical 5-10MB), warn
     const sizeMB = totalSize / (1024 * 1024);
-    if (sizeMB > 4) {
+    if (sizeMB > STORAGE_CONFIG.WARNING_SIZE_MB) {
       console.warn(
         `localStorage is using ${sizeMB.toFixed(2)}MB, approaching limit`
       );
     }
 
-    return sizeMB < 4.5; // Leave some buffer
+    return sizeMB < STORAGE_CONFIG.MAX_SIZE_MB; // Leave some buffer
   } catch (e) {
     console.error('Error checking storage space:', e);
     return true; // Assume we have space if we can't check
@@ -58,11 +60,13 @@ const hasStorageSpace = () => {
 const cleanupOldLogs = () => {
   try {
     const logs = storageService.getLogs();
-    if (logs.length > 100) {
-      // Keep only last 100 logs
-      const recentLogs = logs.slice(-100);
+    if (logs.length > STORAGE_CONFIG.MAX_LOGS_COUNT) {
+      // Keep only last configured number of logs
+      const recentLogs = logs.slice(-STORAGE_CONFIG.MAX_LOGS_COUNT);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(recentLogs));
-      console.log(`Cleaned up ${logs.length - 100} old logs`);
+      console.log(
+        `Cleaned up ${logs.length - STORAGE_CONFIG.MAX_LOGS_COUNT} old logs`
+      );
       return true;
     }
     return false;
