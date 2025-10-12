@@ -2,21 +2,26 @@ import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
+import Tabs from '../ui/Tabs';
+import RangeSlider from '../ui/RangeSlider';
 import RpeSelector from './RpeSelector';
 import PainAreaSelector from './PainAreaSelector';
 import ExerciseList from './ExerciseList';
+import WorkoutGoalSelector from './WorkoutGoalSelector';
 import programService from '../../services/programService';
-import { STORAGE_KEYS } from '../../constants/index';
+import { STORAGE_KEYS, DEFAULT_DURATION, DURATION_OPTIONS } from '../../constants/index';
 import './ProgramGenerator.css';
 
 /**
- * Main component for generating exercise programs
+ * Main component for generating exercise programs with goal-based selection
  * @param {Object} props - Component props
  * @param {boolean} props.useWellbeingData - Whether to use wellbeing data for recommendations
  */
 function ProgramGenerator({ useWellbeingData = true }) {
   const [rpe, setRpe] = useState(5);
   const [painAreas, setPainAreas] = useState([]);
+  const [workoutGoal, setWorkoutGoal] = useState('general');
+  const [duration, setDuration] = useState(DEFAULT_DURATION);
   const [program, setProgram] = useState(null);
   const [showRpeModal, setShowRpeModal] = useState(false);
   const [showPainModal, setShowPainModal] = useState(false);
@@ -65,9 +70,11 @@ function ProgramGenerator({ useWellbeingData = true }) {
     // Simulate async operation for loading state
     setTimeout(() => {
       try {
-        const newProgram = programService.generateProgram(
+        const newProgram = programService.generateProgramWithGoal(
           rpe,
           painAreas,
+          workoutGoal,
+          duration,
           useWellbeingData
         );
         setProgram(newProgram);
@@ -79,7 +86,7 @@ function ProgramGenerator({ useWellbeingData = true }) {
         setIsGenerating(false);
       }
     }, 300);
-  }, [rpe, painAreas, useWellbeingData]);
+  }, [rpe, painAreas, workoutGoal, duration, useWellbeingData]);
 
   const handleSaveRpe = (newRpe) => {
     setRpe(newRpe);
@@ -94,37 +101,43 @@ function ProgramGenerator({ useWellbeingData = true }) {
     return programService.getTotalMinutes(program[category]);
   };
 
-  return (
-    <div className="program-generator">
+  // Tab content for setup
+  const setupContent = (
+    <div className="setup-content">
       <Card>
-        <h2>Генератор программы тренировок</h2>
-        <p className="generator-description">
-          Создайте персонализированную программу на основе вашего состояния
-        </p>
+        <h3>Настройки тренировки</h3>
+        
+        <WorkoutGoalSelector 
+          selectedGoal={workoutGoal}
+          onSelect={setWorkoutGoal}
+        />
 
-        <div className="program-controls">
-          <div className="control-group">
-            <label>Уровень нагрузки (RPE)</label>
-            <Button onClick={() => setShowRpeModal(true)} variant="outline">
+        <div className="settings-grid">
+          <div className="setting-item">
+            <RangeSlider
+              label="Длительность тренировки"
+              value={duration}
+              onChange={setDuration}
+              min={15}
+              max={60}
+              step={5}
+              formatValue={(val) => `${val} мин`}
+            />
+          </div>
+
+          <div className="setting-item">
+            <label className="setting-label">Уровень нагрузки (RPE)</label>
+            <Button onClick={() => setShowRpeModal(true)} variant="outline" className="setting-button">
               {rpe} / 10
             </Button>
           </div>
 
-          <div className="control-group">
-            <label>Области с болью</label>
-            <Button onClick={() => setShowPainModal(true)} variant="outline">
+          <div className="setting-item">
+            <label className="setting-label">Области с болью</label>
+            <Button onClick={() => setShowPainModal(true)} variant="outline" className="setting-button">
               {painAreas.length === 0 ? 'Нет' : `${painAreas.length} выбрано`}
             </Button>
           </div>
-
-          <Button
-            onClick={handleGenerateProgram}
-            variant="primary"
-            disabled={isGenerating}
-            className="generate-button"
-          >
-            {isGenerating ? 'Генерация...' : '🎯 Сгенерировать программу'}
-          </Button>
         </div>
 
         {painAreas.length > 0 && (
@@ -140,8 +153,22 @@ function ProgramGenerator({ useWellbeingData = true }) {
             </p>
           </div>
         )}
-      </Card>
 
+        <Button
+          onClick={handleGenerateProgram}
+          variant="primary"
+          disabled={isGenerating}
+          className="generate-button"
+        >
+          {isGenerating ? 'Генерация...' : '🎯 Сгенерировать программу'}
+        </Button>
+      </Card>
+    </div>
+  );
+
+  // Tab content for program results
+  const programContent = (
+    <div className="program-content">
       {isGenerating && (
         <Card>
           <div className="loading-state">
@@ -151,11 +178,23 @@ function ProgramGenerator({ useWellbeingData = true }) {
         </Card>
       )}
 
+      {!isGenerating && !program && (
+        <Card>
+          <div className="no-program">
+            <p>Настройте параметры и сгенерируйте программу во вкладке "Настройка"</p>
+          </div>
+        </Card>
+      )}
+
       {!isGenerating && program && (
         <>
-          <Card>
+          <Card variant="gradient">
             <h3>📊 Общая информация</h3>
             <div className="program-summary">
+              <div className="summary-item">
+                <span className="summary-label">Цель:</span>
+                <span className="summary-value">{program.goalName}</span>
+              </div>
               <div className="summary-item">
                 <span className="summary-label">Общее время:</span>
                 <span className="summary-value">
@@ -195,6 +234,26 @@ function ProgramGenerator({ useWellbeingData = true }) {
           />
         </>
       )}
+    </div>
+  );
+
+  return (
+    <div className="program-generator">
+      <Card hoverable={false}>
+        <h2>Генератор программы тренировок</h2>
+        <p className="generator-description">
+          Создайте персонализированную программу на основе вашего состояния и целей
+        </p>
+      </Card>
+
+      <Tabs
+        tabs={[
+          { id: 'setup', label: 'Настройка', icon: '⚙️', content: setupContent },
+          { id: 'program', label: 'Программа', icon: '📋', content: programContent },
+        ]}
+        defaultTab="setup"
+      />
+
 
       {showRpeModal && (
         <RpeSelector
