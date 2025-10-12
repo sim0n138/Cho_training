@@ -8,7 +8,7 @@ function Layout({ children }) {
     <div className="layout">
       <header className="header" role="banner">
         <div className="header-content">
-          <h1>Cho_training</h1>
+          <h1>Cho Training</h1>
           <ThemeSwitcher />
         </div>
       </header>

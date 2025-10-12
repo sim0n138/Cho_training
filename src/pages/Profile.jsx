@@ -1,5 +1,6 @@
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
+import packageJson from '../../package.json';
 import './Profile.css';
 
 /**
@@ -18,7 +19,7 @@ function Profile() {
             <p>
               Cho Training - это персональный трекер тренировок и самочувствия.
             </p>
-            <p>Версия: 1.0.0</p>
+            <p>Версия: {packageJson.version}</p>
           </div>
         </Card>
       </div>
