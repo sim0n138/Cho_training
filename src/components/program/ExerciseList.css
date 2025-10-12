@@ -1,49 +1,93 @@
 .exercise-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 1rem;
+  gap: var(--spacing-md);
 }
 
 .exercise-item {
-  padding: 0.75rem;
-  background: var(--bg-light, #f8f9fa);
-  border-radius: 6px;
-  border-left: 3px solid var(--primary-color, #007bff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  text-align: left;
+}
+
+.exercise-item:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-hover);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.exercise-item:focus {
+  outline: none;
+  box-shadow: var(--shadow-focus);
 }
 
 .exercise-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--spacing-xs);
+  flex: 1;
 }
 
 .exercise-name {
-  font-weight: 600;
-  color: var(--text-primary, #212529);
-  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
 }
 
 .exercise-meta {
-  font-size: 0.85rem;
-  color: var(--text-secondary, #6c757d);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .exercise-areas {
-  font-size: 0.8rem;
-  color: var(--text-muted, #868e96);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
   font-style: italic;
+}
+
+.exercise-arrow {
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-tertiary);
+  transition: transform var(--transition-base);
+  flex-shrink: 0;
+  margin-left: var(--spacing-md);
+}
+
+.exercise-item:hover .exercise-arrow {
+  transform: translateX(4px);
+  color: var(--color-primary);
 }
 
 .category-time {
-  color: var(--primary-color, #007bff);
-  font-weight: normal;
-  font-size: 0.9rem;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
 }
 
 .no-exercises {
-  color: var(--text-secondary, #666);
+  color: var(--color-text-tertiary);
   font-style: italic;
-  text-align: center;
-  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .exercise-item {
+    padding: var(--spacing-md);
+  }
+
+  .exercise-name {
+    font-size: var(--font-size-sm);
+  }
+  
+  .exercise-meta {
+    font-size: var(--font-size-xs);
+  }
 }

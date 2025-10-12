@@ -4,3 +4,4 @@
 
 export * from './wellbeingThresholds.js';
 export * from './storageKeys.js';
+export * from './workoutConstants.js';

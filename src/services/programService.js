@@ -8,6 +8,7 @@ import {
   RPE_THRESHOLDS,
   TARGET_MINUTES,
   PROGRAM_CONFIG,
+  getWorkoutGoal,
 } from '../constants/index.js';
 import storageService from './storageService.js';
 
@@ -233,6 +234,105 @@ export const generateProgram = (rpe, painAreas, useWellbeingData = true) => {
 };
 
 /**
+ * Generate program with workout goal support
+ * @param {number} rpe - RPE value (1-10)
+ * @param {Array} painAreas - Array of pain areas
+ * @param {string} goalId - Workout goal ID
+ * @param {number} duration - Target duration in minutes
+ * @param {boolean} useWellbeingData - Whether to consider wellbeing data
+ * @returns {Object} Generated program
+ */
+export const generateProgramWithGoal = (
+  rpe,
+  painAreas,
+  goalId,
+  duration = 30,
+  useWellbeingData = true
+) => {
+  // Get workout goal configuration
+  const goal = getWorkoutGoal(goalId);
+  if (!goal) {
+    // Fallback to default generation
+    return generateProgram(rpe, painAreas, useWellbeingData);
+  }
+
+  // Get wellbeing recommendations if requested
+  let recommendations = null;
+  if (useWellbeingData) {
+    const latestLog = storageService.getLatestLog();
+    recommendations = getWellbeingRecommendations(latestLog);
+  }
+
+  // Calculate target minutes for each category based on goal distribution
+  const targetStretch = Math.round(duration * goal.distribution.stretch);
+  const targetLFC = Math.round(duration * goal.distribution.lfc);
+  const targetMeditation = Math.round(duration * goal.distribution.meditation);
+
+  // Get exercises by category
+  let stretchExercises = EXERCISES.stretch || [];
+  let lfcExercises = EXERCISES.lfc || [];
+  let meditationExercises = EXERCISES.meditation || [];
+
+  // Filter by focus areas if goal specifies them
+  if (goal.focusAreas && goal.focusAreas.length > 0) {
+    const filterByFocus = (exercises) =>
+      exercises.filter((ex) =>
+        ex.areas.some((area) => goal.focusAreas.includes(area))
+      );
+    stretchExercises = filterByFocus(stretchExercises);
+    lfcExercises = filterByFocus(lfcExercises);
+  }
+
+  // Filter by pain areas
+  const availableStretch = filterByPain(stretchExercises, painAreas);
+  const availableLFC = filterByPain(lfcExercises, painAreas);
+  const availableMeditation = filterByPain(meditationExercises, painAreas);
+
+  // Pack exercises
+  const selectedStretch = packByMinutes(
+    availableStretch,
+    targetStretch,
+    PROGRAM_CONFIG.MINUTES_TOLERANCE
+  );
+  const selectedLFC = packByMinutes(
+    availableLFC,
+    targetLFC,
+    PROGRAM_CONFIG.MINUTES_TOLERANCE
+  );
+  const selectedMeditation = packByMinutes(
+    availableMeditation,
+    targetMeditation,
+    PROGRAM_CONFIG.MINUTES_TOLERANCE
+  );
+
+  // Calculate stats
+  const totalMinutes =
+    getTotalMinutes(selectedStretch) +
+    getTotalMinutes(selectedLFC) +
+    getTotalMinutes(selectedMeditation);
+
+  const focusArea = getMostFrequentArea([
+    ...selectedStretch.map((ex) => ex.areas),
+    ...selectedLFC.map((ex) => ex.areas),
+  ]);
+
+  return {
+    rpe,
+    painAreas,
+    goalId,
+    goalName: goal.name,
+    targetDuration: duration,
+    stretch: selectedStretch,
+    lfc: selectedLFC,
+    meditation: selectedMeditation,
+    totalMinutes,
+    focusArea: focusArea || 'Все тело',
+    recommendations,
+    timestamp: new Date().toISOString(),
+  };
+};
+
+/**
  * Save program to history in localStorage
  * @param {Object} program - Program to save
  * @returns {boolean} Success status
@@ -277,6 +377,7 @@ const programService = {
   getTotalMinutes,
   getWellbeingRecommendations,
   generateProgram,
+  generateProgramWithGoal,
   saveProgramToHistory,
   getProgramHistory,
 };
