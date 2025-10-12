@@ -99,54 +99,19 @@ function Dashboard() {
 
   return (
     <Layout>
-      <section className="summary-section">
-        <h2>{greeting}</h2>
-        <p>Your personal training tracker</p>
+      <section className="hero-section">
+        <Card variant="gradient" hoverable={false}>
+          <h2 className="hero-title">{greeting}</h2>
+          <p className="hero-subtitle">
+            Ваш персональный трекер здоровья и тренировок
+          </p>
+        </Card>
       </section>
 
-      <section className="quick-access">
-        <Card>
-          <h3>Current Status</h3>
-          {latestLog ? (
-            <div className="status-summary">
-              <p className="status-item">
-                <strong>Качество сна:</strong> {latestLog.sleepQuality}/5
-              </p>
-              <p className="status-item">
-                <strong>Уровень энергии:</strong> {latestLog.energyLevel}/5
-              </p>
-              <p className="status-item">
-                <strong>Настроение:</strong> {latestLog.mood}
-              </p>
-              {latestLog.musclePain && latestLog.musclePain.length > 0 && (
-                <p className="status-item">
-                  <strong>Мышечная боль:</strong>{' '}
-                  {latestLog.musclePain.join(', ')}
-                </p>
-              )}
-              <p className="last-update">
-                Последняя запись:{' '}
-                {new Date(latestLog.date).toLocaleDateString('ru-RU')}
-              </p>
-            </div>
-          ) : (
-            <div className="empty-status">
-              <p>
-                Начните отслеживать своё самочувствие для получения
-                персонализированных рекомендаций
-              </p>
-            </div>
-          )}
-          <Link to="/log">
-            <Button variant="primary">
-              {latestLog ? 'Добавить запись' : 'Начать отслеживание'}
-            </Button>
-          </Link>
-        </Card>
-
-        <Card>
-          <h3>Тренировка на сегодня</h3>
-          {recommendation && (
+      {recommendation && (
+        <section className="recommendations-section">
+          <Card variant="info">
+            <h3>🎯 Рекомендации на сегодня</h3>
             <div className="recommendation">
               <div
                 className={`intensity-badge intensity-${recommendation.intensity}`}
@@ -178,22 +143,109 @@ function Dashboard() {
                 </p>
               )}
             </div>
-          )}
-        </Card>
+          </Card>
+        </section>
+      )}
 
-        <Card>
-          <h3>Quick Stats</h3>
-          <p>View your progress and statistics</p>
-          <Link to="/stats">
-            <Button variant="secondary">View Statistics</Button>
-          </Link>
-        </Card>
+      <section className="quick-actions">
+        <h3 className="section-title">Быстрые действия</h3>
+        <div className="actions-grid">
+          <Card>
+            <div className="action-icon">📝</div>
+            <h4>Записать самочувствие</h4>
+            <p>Отследите качество сна, энергию и настроение</p>
+            <Link to="/log">
+              <Button variant="primary">
+                {latestLog ? 'Добавить запись' : 'Начать отслеживание'}
+              </Button>
+            </Link>
+          </Card>
+
+          <Card>
+            <div className="action-icon">💪</div>
+            <h4>Создать программу</h4>
+            <p>Сгенерируйте персональную тренировку</p>
+            <Link to="/program">
+              <Button variant="primary">Создать</Button>
+            </Link>
+          </Card>
+
+          <Card>
+            <div className="action-icon">📈</div>
+            <h4>Посмотреть статистику</h4>
+            <p>Анализируйте свой прогресс</p>
+            <Link to="/stats">
+              <Button variant="secondary">Статистика</Button>
+            </Link>
+          </Card>
+        </div>
       </section>
 
-      <section className="data-management">
+      <section className="status-section">
+        <h3 className="section-title">Текущее состояние</h3>
+        {latestLog ? (
+          <Card>
+            <div className="status-grid">
+              <div className="status-item">
+                <span className="status-icon">😴</span>
+                <div className="status-details">
+                  <span className="status-label">Качество сна</span>
+                  <span className="status-value">
+                    {latestLog.sleepQuality}/5
+                  </span>
+                </div>
+              </div>
+              <div className="status-item">
+                <span className="status-icon">⚡</span>
+                <div className="status-details">
+                  <span className="status-label">Уровень энергии</span>
+                  <span className="status-value">
+                    {latestLog.energyLevel}/5
+                  </span>
+                </div>
+              </div>
+              <div className="status-item">
+                <span className="status-icon">😊</span>
+                <div className="status-details">
+                  <span className="status-label">Настроение</span>
+                  <span className="status-value">{latestLog.mood}</span>
+                </div>
+              </div>
+              {latestLog.musclePain && latestLog.musclePain.length > 0 && (
+                <div className="status-item">
+                  <span className="status-icon">🩹</span>
+                  <div className="status-details">
+                    <span className="status-label">Мышечная боль</span>
+                    <span className="status-value">
+                      {latestLog.musclePain.join(', ')}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+            <p className="last-update">
+              Последняя запись:{' '}
+              {new Date(latestLog.date).toLocaleDateString('ru-RU')}
+            </p>
+          </Card>
+        ) : (
+          <Card>
+            <div className="empty-status">
+              <p>
+                Начните отслеживать своё самочувствие для получения
+                персонализированных рекомендаций
+              </p>
+              <Link to="/log">
+                <Button variant="primary">Начать отслеживание</Button>
+              </Link>
+            </div>
+          </Card>
+        )}
+      </section>
+
+      <section className="data-section">
+        <h3 className="section-title">Управление данными</h3>
         <Card>
-          <h3>📦 Управление данными</h3>
-          <p>Экспортируйте и импортируйте свои данные о тренировках</p>
           <div className="data-actions">
             <Button onClick={handleExport} variant="outline">
               💾 Экспорт данных
