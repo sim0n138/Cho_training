@@ -1,4 +1,9 @@
+/**
+ * Statistics page component
+ * Displays charts and analytics for training logs with customizable date ranges
+ */
 import { Link } from 'react-router-dom';
+import { useState, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -20,44 +25,103 @@ import Button from '../components/ui/Button';
 import useWellbeingData from '../hooks/useWellbeingData';
 import './Stats.css';
 
+/**
+ * Stats component - displays comprehensive analytics and visualizations
+ * Features customizable date ranges and multiple chart types
+ */
 function Stats() {
   const { logs, stats } = useWellbeingData();
+  const [dateRange, setDateRange] = useState('7'); // 7, 14, 30, 90, 'all'
 
-  const chartData = logs.slice(-7).map((log) => ({
-    date: new Date(log.date).toLocaleDateString('ru-RU', {
-      month: 'short',
-      day: 'numeric',
-    }),
-    'Качество сна': log.sleepQuality,
-    'Уровень энергии': log.energyLevel,
-  }));
+  // Filter logs based on date range
+  const filteredLogs = useMemo(() => {
+    if (dateRange === 'all') return logs;
 
-  const moodData = logs.reduce((acc, log) => {
-    acc[log.mood] = (acc[log.mood] || 0) + 1;
-    return acc;
-  }, {});
+    const days = parseInt(dateRange, 10);
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
 
-  const moodChartData = Object.entries(moodData).map(([mood, count]) => ({
-    mood,
-    count,
-  }));
+    return logs.filter((log) => new Date(log.date) >= cutoffDate);
+  }, [logs, dateRange]);
+
+  const chartData = useMemo(() => {
+    return filteredLogs.map((log) => ({
+      date: new Date(log.date).toLocaleDateString('ru-RU', {
+        month: 'short',
+        day: 'numeric',
+      }),
+      'Качество сна': log.sleepQuality,
+      'Уровень энергии': log.energyLevel,
+    }));
+  }, [filteredLogs]);
+
+  const moodData = useMemo(() => {
+    return filteredLogs.reduce((acc, log) => {
+      acc[log.mood] = (acc[log.mood] || 0) + 1;
+      return acc;
+    }, {});
+  }, [filteredLogs]);
+
+  const moodChartData = useMemo(() => {
+    return Object.entries(moodData).map(([mood, count]) => ({
+      mood,
+      count,
+    }));
+  }, [moodData]);
 
   // Calculate muscle pain distribution
-  const musclePainData = logs.reduce((acc, log) => {
-    if (log.musclePain && log.musclePain.length > 0) {
-      log.musclePain.forEach((pain) => {
-        acc[pain] = (acc[pain] || 0) + 1;
-      });
-    }
-    return acc;
-  }, {});
+  const musclePainData = useMemo(() => {
+    return filteredLogs.reduce((acc, log) => {
+      if (log.musclePain && log.musclePain.length > 0) {
+        log.musclePain.forEach((pain) => {
+          acc[pain] = (acc[pain] || 0) + 1;
+        });
+      }
+      return acc;
+    }, {});
+  }, [filteredLogs]);
 
-  const musclePainChartData = Object.entries(musclePainData).map(
-    ([name, value]) => ({
+  const musclePainChartData = useMemo(() => {
+    return Object.entries(musclePainData).map(([name, value]) => ({
       name,
       value,
-    })
-  );
+    }));
+  }, [musclePainData]);
+
+  // Calculate enhanced statistics
+  const enhancedStats = useMemo(() => {
+    if (filteredLogs.length === 0) {
+      return {
+        avgSleep: 0,
+        avgEnergy: 0,
+        logsCount: 0,
+        daysWithPain: 0,
+        mostCommonMood: '-',
+      };
+    }
+
+    const avgSleep =
+      filteredLogs.reduce((sum, log) => sum + log.sleepQuality, 0) /
+      filteredLogs.length;
+    const avgEnergy =
+      filteredLogs.reduce((sum, log) => sum + log.energyLevel, 0) /
+      filteredLogs.length;
+    const daysWithPain = filteredLogs.filter(
+      (log) => log.musclePain && log.musclePain.length > 0
+    ).length;
+
+    // Find most common mood
+    const moodCounts = Object.entries(moodData).sort((a, b) => b[1] - a[1]);
+    const mostCommonMood = moodCounts.length > 0 ? moodCounts[0][0] : '-';
+
+    return {
+      avgSleep: avgSleep.toFixed(1),
+      avgEnergy: avgEnergy.toFixed(1),
+      logsCount: filteredLogs.length,
+      daysWithPain,
+      mostCommonMood,
+    };
+  }, [filteredLogs, moodData]);
 
   const COLORS = ['#4caf50', '#2196f3', '#ff9800', '#e91e63', '#9c27b0'];
 
@@ -68,6 +132,68 @@ function Stats() {
         <p className="description">
           Track your progress and analyze your training data
         </p>
+
+        <div className="date-range-selector">
+          <label>Период:</label>
+          <div className="range-buttons">
+            <button
+              className={dateRange === '7' ? 'active' : ''}
+              onClick={() => setDateRange('7')}
+            >
+              7 дней
+            </button>
+            <button
+              className={dateRange === '14' ? 'active' : ''}
+              onClick={() => setDateRange('14')}
+            >
+              14 дней
+            </button>
+            <button
+              className={dateRange === '30' ? 'active' : ''}
+              onClick={() => setDateRange('30')}
+            >
+              30 дней
+            </button>
+            <button
+              className={dateRange === '90' ? 'active' : ''}
+              onClick={() => setDateRange('90')}
+            >
+              90 дней
+            </button>
+            <button
+              className={dateRange === 'all' ? 'active' : ''}
+              onClick={() => setDateRange('all')}
+            >
+              Все время
+            </button>
+          </div>
+        </div>
+
+        <div className="stats-summary-grid">
+          <Card>
+            <h3>📊 Общая статистика</h3>
+            <div className="stat-item">
+              <span className="stat-label">Записей за период:</span>
+              <span className="stat-value">{enhancedStats.logsCount}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Средний сон:</span>
+              <span className="stat-value">{enhancedStats.avgSleep}/5</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Средняя энергия:</span>
+              <span className="stat-value">{enhancedStats.avgEnergy}/5</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Дней с болью:</span>
+              <span className="stat-value">{enhancedStats.daysWithPain}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Частое настроение:</span>
+              <span className="stat-value">{enhancedStats.mostCommonMood}</span>
+            </div>
+          </Card>
+        </div>
 
         {logs.length === 0 ? (
           <div className="no-data">

@@ -1,16 +1,27 @@
+/**
+ * Dashboard page component
+ * Main landing page showing current status, workout recommendations, and data management
+ */
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import useWellbeingData from '../hooks/useWellbeingData';
 import recommendationService from '../services/recommendationService';
+import exportService from '../services/exportService';
 import './Dashboard.css';
 
+/**
+ * Dashboard component - main hub for the application
+ * Displays current wellbeing status, workout recommendations, and data management tools
+ */
 function Dashboard() {
   const { latestLog, stats } = useWellbeingData();
   const [greeting, setGreeting] = useState('');
   const [recommendation, setRecommendation] = useState(null);
+  const [importStatus, setImportStatus] = useState(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     // Set dynamic greeting based on time of day
@@ -29,6 +40,62 @@ function Dashboard() {
     const rec = recommendationService.getRecommendation(latestLog);
     setRecommendation(rec);
   }, [latestLog]);
+
+  /**
+   * Handle export of all training logs to JSON file
+   */
+  const handleExport = () => {
+    try {
+      exportService.downloadLogsAsJSON();
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('Не удалось экспортировать данные');
+    }
+  };
+
+  /**
+   * Trigger file input click for import
+   */
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  /**
+   * Handle import of training logs from JSON file
+   * @param {Event} event - File input change event
+   */
+  const handleImport = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const result = await exportService.importLogsFromFile(file, true);
+      if (result.success) {
+        setImportStatus({
+          type: 'success',
+          message: result.message,
+        });
+        // Reload page to update data
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        setImportStatus({
+          type: 'error',
+          message: result.message,
+        });
+      }
+    } catch (err) {
+      console.error('Import failed:', err);
+      setImportStatus({
+        type: 'error',
+        message: 'Ошибка при импорте данных',
+      });
+    }
+
+    // Clear input
+    event.target.value = '';
+  };
 
   return (
     <Layout>
@@ -120,6 +187,39 @@ function Dashboard() {
           <Link to="/stats">
             <Button variant="secondary">View Statistics</Button>
           </Link>
+        </Card>
+      </section>
+
+      <section className="data-management">
+        <Card>
+          <h3>📦 Управление данными</h3>
+          <p>Экспортируйте и импортируйте свои данные о тренировках</p>
+          <div className="data-actions">
+            <Button onClick={handleExport} variant="outline">
+              💾 Экспорт данных
+            </Button>
+            <Button onClick={handleImportClick} variant="outline">
+              📥 Импорт данных
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleImport}
+              style={{ display: 'none' }}
+            />
+          </div>
+          {importStatus && (
+            <div
+              className={`import-status ${importStatus.type === 'success' ? 'success' : 'error'}`}
+            >
+              {importStatus.message}
+            </div>
+          )}
+          <p className="data-info">
+            💡 Экспорт создаст JSON файл со всеми вашими записями. Импорт
+            объединит данные с существующими.
+          </p>
         </Card>
       </section>
     </Layout>
