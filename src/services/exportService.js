@@ -2,6 +2,8 @@
  * Service for exporting and importing application data in JSON format
  */
 import storageService from './storageService.js';
+import { sanitizeJSON, sanitizeObject } from '../utils/sanitize.js';
+import validationService from './validationService.js';
 
 /**
  * Export all training logs to JSON format
@@ -52,23 +54,41 @@ export const downloadLogsAsJSON = () => {
  */
 export const importLogsFromJSON = (jsonString, merge = true) => {
   try {
-    const importData = JSON.parse(jsonString);
+    // First, sanitize and validate the JSON string
+    const sanitizedResult = sanitizeJSON(jsonString);
+    if (!sanitizedResult.isValid) {
+      throw new Error(sanitizedResult.error);
+    }
+
+    const importData = sanitizedResult.data;
 
     // Validate import data structure
     if (!importData.logs || !Array.isArray(importData.logs)) {
       throw new Error('Некорректный формат данных');
     }
 
-    // Validate each log entry
-    const validLogs = importData.logs.filter((log) => {
-      return (
-        log.date &&
-        typeof log.sleepQuality === 'number' &&
-        typeof log.energyLevel === 'number' &&
-        log.mood &&
-        Array.isArray(log.musclePain)
-      );
-    });
+    // Sanitize and validate each log entry
+    const validLogs = [];
+    for (const log of importData.logs) {
+      // Sanitize the entire log object
+      const sanitizedLog = sanitizeObject(log, 100);
+
+      // Basic structure validation
+      if (
+        sanitizedLog.date &&
+        typeof sanitizedLog.sleepQuality === 'number' &&
+        typeof sanitizedLog.energyLevel === 'number' &&
+        sanitizedLog.mood &&
+        Array.isArray(sanitizedLog.musclePain)
+      ) {
+        // Use validation service to fully validate
+        const validation =
+          validationService.sanitizeAndValidateLogEntry(sanitizedLog);
+        if (validation.isValid) {
+          validLogs.push(validation.sanitizedEntry);
+        }
+      }
+    }
 
     if (validLogs.length === 0) {
       throw new Error('Не найдено корректных записей для импорта');

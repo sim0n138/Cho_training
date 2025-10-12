@@ -1,6 +1,7 @@
 /**
  * Service for validating user input data
  */
+import { sanitizeString } from '../utils/sanitize.js';
 
 /**
  * Validates a wellbeing log entry
@@ -35,8 +36,14 @@ const validateLogEntry = (entry) => {
   // Validate mood
   if (!entry.mood || typeof entry.mood !== 'string') {
     errors.mood = 'Настроение обязательно для заполнения';
-  } else if (entry.mood.length > 100) {
-    errors.mood = 'Настроение не должно превышать 100 символов';
+  } else {
+    // Sanitize mood to prevent XSS
+    const sanitizedMood = sanitizeString(entry.mood, 100);
+    if (sanitizedMood.length === 0) {
+      errors.mood = 'Настроение содержит недопустимые символы';
+    } else if (sanitizedMood !== entry.mood) {
+      errors.mood = 'Настроение содержит недопустимые HTML теги или скрипты';
+    }
   }
 
   // Validate date
@@ -103,10 +110,43 @@ const validatePainAreas = (painAreas) => {
   return { isValid: true };
 };
 
+/**
+ * Sanitizes and validates a log entry before storage
+ * @param {Object} entry - The log entry to sanitize and validate
+ * @returns {Object} - Object with isValid flag, sanitizedEntry, and errors
+ */
+const sanitizeAndValidateLogEntry = (entry) => {
+  if (!entry || typeof entry !== 'object') {
+    return {
+      isValid: false,
+      errors: { general: 'Некорректный формат данных' },
+    };
+  }
+
+  // Create sanitized copy
+  const sanitizedEntry = {
+    sleepQuality: entry.sleepQuality,
+    energyLevel: entry.energyLevel,
+    mood: typeof entry.mood === 'string' ? sanitizeString(entry.mood, 100) : '',
+    date: entry.date,
+    musclePain: Array.isArray(entry.musclePain) ? entry.musclePain : [],
+  };
+
+  // Validate the sanitized entry
+  const validation = validateLogEntry(sanitizedEntry);
+
+  return {
+    isValid: validation.isValid,
+    sanitizedEntry: validation.isValid ? sanitizedEntry : null,
+    errors: validation.errors,
+  };
+};
+
 const validationService = {
   validateLogEntry,
   validateRPE,
   validatePainAreas,
+  sanitizeAndValidateLogEntry,
 };
 
 export default validationService;
