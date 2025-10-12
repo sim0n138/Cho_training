@@ -135,7 +135,10 @@ export const getWellbeingRecommendations = (latestLog) => {
   }
 
   // Check muscle pain
-  if (musclePain && musclePain.length >= WELLBEING_THRESHOLDS.PAIN.SIGNIFICANT_COUNT) {
+  if (
+    musclePain &&
+    musclePain.length >= WELLBEING_THRESHOLDS.PAIN.SIGNIFICANT_COUNT
+  ) {
     suggestedRPE -= 1;
     messages.push('Боли в нескольких областях - снижена нагрузка');
   }
@@ -163,7 +166,7 @@ export const generateProgram = (rpe, painAreas, useWellbeingData = true) => {
   if (useWellbeingData) {
     const latestLog = storageService.getLatestLog();
     recommendations = getWellbeingRecommendations(latestLog);
-    
+
     // Optionally adjust RPE based on recommendations (user can override)
     // This is informational for now
   }

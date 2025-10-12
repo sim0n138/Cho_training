@@ -71,11 +71,7 @@ describe('programService', () => {
 
   describe('getTotalMinutes', () => {
     it('should calculate total minutes', () => {
-      const exercises = [
-        { duration: 5 },
-        { duration: 10 },
-        { duration: 3 },
-      ];
+      const exercises = [{ duration: 5 }, { duration: 10 }, { duration: 3 }];
       const result = programService.getTotalMinutes(exercises);
       expect(result).toBe(18);
     });
