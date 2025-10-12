@@ -102,6 +102,9 @@ export const ru = {
     language: 'Язык',
     export: 'Экспорт данных',
     import: 'Импорт данных',
+    about: 'О приложении',
+    description: 'Персональный трекер тренировок и самочувствия',
+    version: 'Версия',
   },
 
   // Export/Import

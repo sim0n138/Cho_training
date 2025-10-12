@@ -102,6 +102,9 @@ export const en = {
     language: 'Language',
     export: 'Export Data',
     import: 'Import Data',
+    about: 'About',
+    description: 'Personal training and wellbeing tracker',
+    version: 'Version',
   },
 
   // Export/Import

@@ -25,13 +25,13 @@ function Profile() {
             </div>
           </div>
           <div className="profile-section">
-            <h3>
-              {t('dashboard.welcome')} - {APP_NAME}
-            </h3>
+            <h3>{t('profile.about')}</h3>
             <p>
-              {APP_NAME} - это персональный трекер тренировок и самочувствия.
+              {APP_NAME} - {t('profile.description')}
             </p>
-            <p>Версия: {APP_VERSION}</p>
+            <p>
+              {t('profile.version')}: {APP_VERSION}
+            </p>
           </div>
         </Card>
       </div>
