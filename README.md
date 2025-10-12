@@ -17,34 +17,62 @@ A personal training tracker web application to help users systematize their work
 ### ✅ Implemented Features
 
 - **Dashboard**: Overview of current status with quick access cards to main features
+  - Current wellbeing status display
+  - Personalized workout recommendations based on latest log
+  - **NEW**: Data export/import functionality (JSON format)
+  - Quick navigation to all features
 - **Log Wellbeing**: Comprehensive form to track daily wellbeing metrics:
   - Sleep quality (1-5 scale)
   - Energy level (1-5 scale)
   - Mood selection
   - Muscle pain tracking (legs, back, arms, chest, full body)
-  - Form validation
-  - Data persistence in localStorage
+  - **Full validation with validationService**
+  - **Data sanitization before localStorage**
+  - Form validation with user-friendly error messages
+  - Data persistence in localStorage with quota checking
 - **Program Generator**: Personalized daily workout program generator:
+  - **NEW**: Completely refactored with modular components
+  - **NEW**: Integration with wellbeing data for automatic recommendations
   - RPE-based intensity adjustment (1-10 scale)
   - Pain area filtering (excludes conflicting exercises)
   - Automatic area rotation (prevents repeating dominant areas)
   - Exercise packing with ±10% tolerance
   - Accessible modals with focus management
+  - **NEW**: Loading states for async operations
+  - **NEW**: Enhanced UI with separate components (RpeSelector, PainAreaSelector, ExerciseList)
   - Program history tracking (localStorage)
   - See [Technical Documentation](docs/PROGRAM_GENERATOR.md)
 - **Statistics**: Visual analytics and progress tracking:
-  - Total logs and weekly logs count
-  - Average sleep quality and energy level
-  - Line chart showing trends over last 7 days
+  - **NEW**: Customizable date ranges (7, 14, 30, 90 days, all time)
+  - **NEW**: Enhanced statistics (avg sleep, energy, days with pain, most common mood)
+  - Total logs and period-specific count
+  - Average sleep quality and energy level for selected period
+  - Line chart showing trends
   - Bar chart displaying mood distribution
+  - Pie chart for muscle pain distribution
+  - Responsive charts with Recharts
+- **Data Management**:
+  - **NEW**: Export all training logs to JSON
+  - **NEW**: Import logs from JSON with merge/replace options
+  - **NEW**: Data validation on import
+  - localStorage quota monitoring and cleanup
+  - Automatic old data cleanup (keeps last 100 logs)
 - **Reusable Components**: 
   - Layout component with header and navigation
   - Card component for consistent styling
   - Button component with multiple variants
+  - **NEW**: ErrorBoundary for graceful error handling
+  - **NEW**: LoadingFallback for lazy-loaded routes
+  - **NEW**: Program components (ProgramGenerator, RpeSelector, etc.)
+- **Code Splitting & Performance**:
+  - **NEW**: Lazy loading for all pages
+  - **NEW**: Manual chunks for vendor libraries
+  - **NEW**: Optimized bundle size (< 650 KB total)
 - **Accessibility**: ARIA attributes, semantic HTML, keyboard navigation support
 - **Responsive Design**: Mobile-friendly layouts with media queries
 - **Code Quality**: ESLint + Prettier configuration for consistent code style
-- **Testing**: Comprehensive test suite with 57 tests (Vitest + React Testing Library)
+- **Testing**: Comprehensive test suite with 97 tests (Vitest + React Testing Library)
+- **Documentation**: JSDoc comments on all key functions and components
 
 ## Tech Stack
 
@@ -102,33 +130,47 @@ The application runs on `http://localhost:5173/` by default.
 src/
 ├── components/
 │   ├── layout/
-│   │   ├── Layout.jsx      # Common layout with header and navigation
+│   │   ├── Layout.jsx         # Common layout with header and navigation
 │   │   └── Layout.css
-│   └── ui/
-│       ├── Button.jsx       # Reusable button component
-│       ├── Button.css
-│       ├── Card.jsx         # Reusable card component
-│       └── Card.css
+│   ├── program/               # Program generator components
+│   │   ├── ProgramGenerator.jsx    # Main program generator
+│   │   ├── RpeSelector.jsx         # RPE selection modal
+│   │   ├── PainAreaSelector.jsx    # Pain area selection modal
+│   │   ├── ExerciseList.jsx        # Exercise list display
+│   │   └── index.js                # Component exports
+│   ├── ui/
+│   │   ├── Button.jsx         # Reusable button component
+│   │   ├── Card.jsx           # Reusable card component
+│   │   └── index.js
+│   └── ErrorBoundary.jsx      # Error boundary component
 ├── pages/
-│   ├── Dashboard.jsx        # Main dashboard page
-│   ├── Dashboard.css
-│   ├── Log.jsx              # Wellbeing logging form
-│   ├── Log.css
-│   ├── Program.jsx          # Workout program generator
-│   ├── Program.css
-│   ├── Program.test.js      # Program generator tests
-│   ├── Stats.jsx            # Statistics and charts
-│   └── Stats.css
+│   ├── Dashboard.jsx          # Main dashboard with data management
+│   ├── Log.jsx                # Wellbeing logging form
+│   ├── Program.jsx            # Program page (uses ProgramGenerator)
+│   ├── Stats.jsx              # Statistics with date ranges
+│   └── Program.test.js        # Program logic tests
 ├── services/
-│   ├── recommendationService.js      # Workout recommendation logic
-│   ├── recommendationService.test.js # 19 tests
-│   ├── storageService.js             # localStorage operations
-│   └── storageService.test.js        # 16 tests
+│   ├── validationService.js   # Data validation (10 tests)
+│   ├── exportService.js       # Export/import functionality (10 tests)
+│   ├── programService.js      # Program generation logic (20 tests)
+│   ├── recommendationService.js  # Workout recommendations (19 tests)
+│   ├── storageService.js      # localStorage operations (16 tests)
+│   └── *.test.js              # Test files
+├── constants/
+│   ├── wellbeingThresholds.js # Wellbeing and program constants
+│   ├── storageKeys.js         # localStorage keys
+│   └── index.js               # Constants export
+├── data/
+│   └── exercises.js           # 340+ exercise database
+├── hooks/
+│   └── useWellbeingData.js    # Custom hook for wellbeing data
+├── types/
+│   └── index.js               # Type definitions
 ├── test/
-│   └── setup.js             # Test configuration
-├── App.jsx                  # Main app component with routing
-├── main.jsx                 # Application entry point
-└── index.css                # Global styles
+│   └── setup.js               # Test configuration
+├── App.jsx                    # Main app with routing and lazy loading
+├── main.jsx                   # Application entry point
+└── index.css                  # Global styles
 ```
 
 ## Data Storage
@@ -153,7 +195,27 @@ See [Exercise Database Documentation](docs/EXERCISE_DATABASE.md) for details.
 
 ## Testing
 
-The project includes a comprehensive test suite with **57 tests** covering:
+The project includes a comprehensive test suite with **97 tests** covering:
+
+- **validationService**: 10 tests
+  - Log entry validation
+  - RPE validation
+  - Pain area validation
+  - Edge cases and error handling
+
+- **exportService**: 10 tests
+  - JSON export functionality
+  - Import with merge/replace
+  - Invalid data handling
+  - File format validation
+
+- **programService**: 20 tests
+  - Program generation logic
+  - Wellbeing data integration
+  - Exercise packing algorithm
+  - Pain area filtering
+  - RPE adjustments
+  - Program history management
 
 - **recommendationService**: 19 tests
   - All recommendation scenarios (rest, recovery, moderate, intensive)
@@ -164,6 +226,7 @@ The project includes a comprehensive test suite with **57 tests** covering:
   - CRUD operations on localStorage
   - Date-based filtering
   - Statistics calculations
+  - Quota checking and cleanup
   - Error handling
 
 - **Program Generator Logic**: 22 tests
@@ -174,9 +237,10 @@ The project includes a comprehensive test suite with **57 tests** covering:
   - Program history management
 
 ### Test Statistics
-- **Total Tests**: 57
+- **Total Tests**: 97
 - **Pass Rate**: 100%
-- **Framework**: Vitest
+- **Service Coverage**: 85% (statements)
+- **Framework**: Vitest with @vitest/coverage-v8
 - **Libraries**: React Testing Library, Jest DOM
 
 See [Code Analysis Report](docs/CODE_ANALYSIS.md) for detailed testing documentation and code quality assessment.
@@ -185,13 +249,16 @@ See [Code Analysis Report](docs/CODE_ANALYSIS.md) for detailed testing documenta
 
 - ~~Training programs and workout templates~~ ✅ **Implemented as Program Generator**
 - ~~Expanded exercise database~~ ✅ **Implemented with 340+ exercises**
-- Integration between Program Generator and Log Wellbeing data
-- Export/import data functionality
-- More detailed analytics and custom date ranges
+- ~~Integration between Program Generator and Log Wellbeing data~~ ✅ **Implemented with automatic recommendations**
+- ~~Export/import data functionality~~ ✅ **Implemented with JSON format**
+- ~~More detailed analytics and custom date ranges~~ ✅ **Implemented with 5 date range options**
+- ~~Code splitting and lazy loading~~ ✅ **Implemented for all pages**
+- ~~Validation service~~ ✅ **Implemented with comprehensive validation**
 - Notes functionality for workout sessions
 - Integration with fitness tracking devices
 - Toast notifications for user actions
 - Multi-language support (i18n)
+- Component-level test coverage (currently focused on services)
 
 ## Development Guidelines
 

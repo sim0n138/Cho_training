@@ -1,3 +1,7 @@
+/**
+ * Dashboard page component
+ * Main landing page showing current status, workout recommendations, and data management
+ */
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import Layout from '../components/layout/Layout';
@@ -8,6 +12,10 @@ import recommendationService from '../services/recommendationService';
 import exportService from '../services/exportService';
 import './Dashboard.css';
 
+/**
+ * Dashboard component - main hub for the application
+ * Displays current wellbeing status, workout recommendations, and data management tools
+ */
 function Dashboard() {
   const { latestLog, stats } = useWellbeingData();
   const [greeting, setGreeting] = useState('');
@@ -33,6 +41,9 @@ function Dashboard() {
     setRecommendation(rec);
   }, [latestLog]);
 
+  /**
+   * Handle export of all training logs to JSON file
+   */
   const handleExport = () => {
     try {
       exportService.downloadLogsAsJSON();
@@ -42,10 +53,17 @@ function Dashboard() {
     }
   };
 
+  /**
+   * Trigger file input click for import
+   */
   const handleImportClick = () => {
     fileInputRef.current?.click();
   };
 
+  /**
+   * Handle import of training logs from JSON file
+   * @param {Event} event - File input change event
+   */
   const handleImport = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;

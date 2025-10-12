@@ -1,3 +1,7 @@
+/**
+ * Statistics page component
+ * Displays charts and analytics for training logs with customizable date ranges
+ */
 import { Link } from 'react-router-dom';
 import { useState, useMemo } from 'react';
 import {
@@ -21,6 +25,10 @@ import Button from '../components/ui/Button';
 import useWellbeingData from '../hooks/useWellbeingData';
 import './Stats.css';
 
+/**
+ * Stats component - displays comprehensive analytics and visualizations
+ * Features customizable date ranges and multiple chart types
+ */
 function Stats() {
   const { logs, stats } = useWellbeingData();
   const [dateRange, setDateRange] = useState('7'); // 7, 14, 30, 90, 'all'
