@@ -65,9 +65,6 @@ const cleanupOldLogs = () => {
       // Keep only last configured number of logs
       const recentLogs = logs.slice(-STORAGE_CONFIG.MAX_LOGS_COUNT);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(recentLogs));
-      console.log(
-        `Cleaned up ${logs.length - STORAGE_CONFIG.MAX_LOGS_COUNT} old logs`
-      );
       return true;
     }
     return false;
