@@ -1,5 +1,7 @@
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from '../i18n/useTranslation.js';
 import { APP_VERSION, APP_NAME } from '../constants';
 import './Profile.css';
 
@@ -8,18 +10,28 @@ import './Profile.css';
  * Simple profile page for user information
  */
 function Profile() {
+  const { t } = useTranslation();
+
   return (
     <Layout>
       <div className="profile-page">
         <Card>
-          <h2>👤 Профиль</h2>
-          <p>Здесь будет информация о пользователе и настройки приложения.</p>
+          <h2>👤 {t('profile.title')}</h2>
           <div className="profile-section">
-            <h3>О приложении</h3>
+            <h3>{t('profile.settings')}</h3>
+            <div className="setting-item">
+              <label>{t('profile.language')}</label>
+              <LanguageSwitcher />
+            </div>
+          </div>
+          <div className="profile-section">
+            <h3>{t('profile.about')}</h3>
             <p>
-              {APP_NAME} - это персональный трекер тренировок и самочувствия.
+              {APP_NAME} - {t('profile.description')}
             </p>
-            <p>Версия: {APP_VERSION}</p>
+            <p>
+              {t('profile.version')}: {APP_VERSION}
+            </p>
           </div>
         </Card>
       </div>

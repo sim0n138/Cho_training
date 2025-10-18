@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
+import { useTranslation } from './i18n/useTranslation.js';
 import './App.css';
 
 // Lazy load страниц для уменьшения размера бандла
@@ -12,10 +13,11 @@ const Profile = lazy(() => import('./pages/Profile'));
 
 // Компонент для отображения во время загрузки
 function LoadingFallback() {
+  const { t } = useTranslation();
   return (
     <div className="loading-container">
       <div className="loading-spinner"></div>
-      <p>Загрузка...</p>
+      <p>{t('common.loading')}</p>
     </div>
   );
 }

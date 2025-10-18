@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { getCurrentLanguage } from '../i18n/config.js';
+import translations from '../i18n/translations/index.js';
 import './ErrorBoundary.css';
 
 class ErrorBoundary extends Component {
@@ -43,17 +45,18 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
+      const lang = getCurrentLanguage();
+      const t = translations[lang] || translations.ru;
+
       return (
         <div className="error-boundary">
           <div className="error-boundary-content">
-            <h1>😞 Что-то пошло не так</h1>
-            <p className="error-message">
-              Произошла непредвиденная ошибка. Попробуйте обновить страницу.
-            </p>
+            <h1>😞 {t.error.title}</h1>
+            <p className="error-message">{t.error.message}</p>
 
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="error-details">
-                <summary>Детали ошибки (только для разработки)</summary>
+                <summary>{t.error.details}</summary>
                 <pre>{this.state.error.toString()}</pre>
                 {this.state.errorInfo && (
                   <pre>{this.state.errorInfo.componentStack}</pre>
@@ -63,10 +66,10 @@ class ErrorBoundary extends Component {
 
             <div className="error-actions">
               <button onClick={this.handleReload} className="btn-primary">
-                🔄 Обновить страницу
+                🔄 {t.error.reload}
               </button>
               <button onClick={this.handleReset} className="btn-secondary">
-                ↩️ Попробовать снова
+                ↩️ {t.error.retry}
               </button>
             </div>
           </div>

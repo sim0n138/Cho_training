@@ -88,6 +88,58 @@ describe('validationService', () => {
     });
   });
 
+  describe('sanitizeAndValidateLogEntry', () => {
+    it('should sanitize and validate a correct entry', () => {
+      const entry = {
+        sleepQuality: 4,
+        energyLevel: 5,
+        mood: 'Отличное',
+        date: new Date().toISOString(),
+        musclePain: ['Ноги'],
+      };
+
+      const result = validationService.sanitizeAndValidateLogEntry(entry);
+      expect(result.isValid).toBe(true);
+      expect(result.sanitizedEntry).toBeDefined();
+      expect(result.sanitizedEntry.mood).toBe('Отличное');
+    });
+
+    it('should sanitize HTML from mood field', () => {
+      const entry = {
+        sleepQuality: 4,
+        energyLevel: 5,
+        mood: '<script>alert("XSS")</script>Хорошее',
+        date: new Date().toISOString(),
+        musclePain: [],
+      };
+
+      const result = validationService.sanitizeAndValidateLogEntry(entry);
+      expect(result.isValid).toBe(true);
+      expect(result.sanitizedEntry.mood).toBe('Хорошее');
+      expect(result.sanitizedEntry.mood).not.toContain('<script>');
+    });
+
+    it('should reject entry with invalid structure', () => {
+      const result = validationService.sanitizeAndValidateLogEntry(null);
+      expect(result.isValid).toBe(false);
+      expect(result.errors.general).toBeDefined();
+    });
+
+    it('should reject entry after sanitization if mood becomes empty', () => {
+      const entry = {
+        sleepQuality: 4,
+        energyLevel: 5,
+        mood: '<script>alert("XSS")</script>',
+        date: new Date().toISOString(),
+        musclePain: [],
+      };
+
+      const result = validationService.sanitizeAndValidateLogEntry(entry);
+      expect(result.isValid).toBe(false);
+      expect(result.errors.mood).toBeDefined();
+    });
+  });
+
   describe('validatePainAreas', () => {
     it('should validate correct pain areas', () => {
       const result = validationService.validatePainAreas(['Ноги', 'Спина']);

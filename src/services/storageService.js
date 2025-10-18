@@ -3,6 +3,7 @@
  * @typedef {import('../types/index.js').WellbeingLog} WellbeingLog
  */
 import { STORAGE_KEYS, STORAGE_CONFIG } from '../constants/index.js';
+import validationService from './validationService.js';
 
 const STORAGE_KEY = STORAGE_KEYS.TRAINING_LOGS;
 
@@ -107,6 +108,16 @@ const storageService = {
    */
   addLog: (logEntry) => {
     try {
+      // Sanitize and validate the log entry before storage
+      const validation =
+        validationService.sanitizeAndValidateLogEntry(logEntry);
+      if (!validation.isValid) {
+        console.error('Invalid log entry:', validation.errors);
+        return false;
+      }
+
+      const sanitizedEntry = validation.sanitizedEntry;
+
       // Check storage availability
       if (!hasStorageSpace()) {
         console.warn('Storage space low, attempting cleanup');
@@ -120,7 +131,7 @@ const storageService = {
       }
 
       const logs = storageService.getLogs();
-      logs.push(logEntry);
+      logs.push(sanitizedEntry);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
       return true;
     } catch (error) {
@@ -129,8 +140,15 @@ const storageService = {
         // Try to cleanup and retry once
         if (cleanupOldLogs()) {
           try {
+            // Re-validate the entry before retry
+            const validation =
+              validationService.sanitizeAndValidateLogEntry(logEntry);
+            if (!validation.isValid) {
+              console.error('Invalid log entry on retry:', validation.errors);
+              return false;
+            }
             const logs = storageService.getLogs();
-            logs.push(logEntry);
+            logs.push(validation.sanitizedEntry);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
             return true;
           } catch (retryError) {

@@ -68,6 +68,7 @@ describe('storageService', () => {
         date: '2024-01-01',
         sleepQuality: 4,
         energyLevel: 5,
+        mood: 'Хорошее',
         musclePain: [],
       };
 
@@ -82,7 +83,13 @@ describe('storageService', () => {
 
     it('should append log to existing logs', () => {
       const existingLogs = [
-        { date: '2024-01-01', sleepQuality: 4, energyLevel: 5, musclePain: [] },
+        {
+          date: '2024-01-01',
+          sleepQuality: 4,
+          energyLevel: 5,
+          mood: 'Отличное',
+          musclePain: [],
+        },
       ];
       localStorage.setItem('training_logs', JSON.stringify(existingLogs));
 
@@ -90,6 +97,7 @@ describe('storageService', () => {
         date: '2024-01-02',
         sleepQuality: 3,
         energyLevel: 4,
+        mood: 'Нормальное',
         musclePain: ['back'],
       };
 
