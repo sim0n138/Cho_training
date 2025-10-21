@@ -1,13 +1,103 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cho Training</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cho Training</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font:14px system-ui,-apple-system,sans-serif;max-width:800px;margin:0 auto;padding:1em;background:#fff}
+    h1{margin-bottom:1em;font-size:2em}
+    form{border:1px solid #ddd;padding:1em;margin-bottom:2em;background:#fafafa}
+    input,textarea,button{width:100%;padding:.5em;margin:.5em 0;border:1px solid #ddd;font:inherit}
+    button{background:#000;color:#fff;cursor:pointer;border:none}
+    button:hover{background:#333}
+    .card{border:1px solid #ddd;padding:1em;margin:1em 0;background:#fff}
+    .card:hover{border-color:#000}
+    .meta{color:#666;font-size:.9em;margin-top:.5em}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1em;margin-bottom:2em}
+    .stat{border:1px solid #ddd;padding:1em;text-align:center}
+    .stat-value{font-size:2em;font-weight:bold}
+    .stat-label{color:#666;font-size:.9em;margin-top:.5em}
+    label{display:block;margin:.5em 0 .2em;font-weight:500}
+    input[type=range]{accent-color:#000}
+    .del{background:#fff;color:#000;border:1px solid #ddd;margin-top:.5em;width:auto;padding:.3em 1em}
+    .del:hover{border-color:#000}
+  </style>
+</head>
+<body>
+  <h1>Cho Training</h1>
+
+  <div class="stats" id="stats"></div>
+
+  <form id="f">
+    <label>Date</label>
+    <input name="date" type="date" required>
+
+    <label>Exercises (comma-separated)</label>
+    <input name="exercises" placeholder="Running, Yoga, Meditation" required>
+
+    <label>Mood: <span id="moodVal">5</span>/10</label>
+    <input name="mood" type="range" min="1" max="10" value="5" oninput="moodVal.textContent=this.value">
+
+    <label>Energy: <span id="energyVal">5</span>/10</label>
+    <input name="energy" type="range" min="1" max="10" value="5" oninput="energyVal.textContent=this.value">
+
+    <label>Notes (optional)</label>
+    <textarea name="notes" rows="3" placeholder="How did you feel?"></textarea>
+
+    <button type="submit">Save Log</button>
+  </form>
+
+  <div id="logs"></div>
+
+  <script>
+    const ls=localStorage,k='cho-logs',
+    get=()=>JSON.parse(ls[k]||'[]'),
+    set=v=>ls[k]=JSON.stringify(v),
+    del=id=>{if(confirm('Delete?')){set(get().filter(l=>l.id!=id));render()}},
+    render=()=>{
+      const data=get(),
+      total=data.length,
+      exCount=data.reduce((s,l)=>s+l.ex.split(',').length,0),
+      avgMood=total?((data.reduce((s,l)=>s+Number(l.m),0)/total).toFixed(1)):0;
+
+      stats.innerHTML=`
+        <div class="stat"><div class="stat-value">${total}</div><div class="stat-label">Total Logs</div></div>
+        <div class="stat"><div class="stat-value">${exCount}</div><div class="stat-label">Exercises</div></div>
+        <div class="stat"><div class="stat-value">${avgMood}</div><div class="stat-label">Avg Mood</div></div>
+      `;
+
+      logs.innerHTML=data.sort((a,b)=>new Date(b.d)-new Date(a.d)).map(l=>
+        `<div class="card">
+          <strong>${l.d}</strong>
+          <div>${l.ex}</div>
+          <div class="meta">Mood: ${l.m}/10 | Energy: ${l.e}/10</div>
+          ${l.n?`<div class="meta">${l.n}</div>`:''}
+          <button class="del" onclick="del('${l.id}')">Delete</button>
+        </div>`
+      ).join('')
+    };
+
+    f.onsubmit=e=>{
+      e.preventDefault();
+      const d=new FormData(f);
+      set([...get(),{
+        id:Date.now(),
+        d:d.get('date'),
+        ex:d.get('exercises'),
+        m:d.get('mood'),
+        e:d.get('energy'),
+        n:d.get('notes')
+      }]);
+      f.reset();
+      moodVal.textContent=energyVal.textContent=5;
+      f.date.value=new Date().toISOString().split('T')[0];
+      render();
+    };
+
+    f.date.value=new Date().toISOString().split('T')[0];
+    render();
+  </script>
+</body>
 </html>
