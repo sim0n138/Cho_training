@@ -113,6 +113,7 @@ export const ru = {
     import: 'Импортировать',
     exportSuccess: 'Данные успешно экспортированы',
     importSuccess: 'Данные успешно импортированы',
+    importLoading: 'Импорт данных...',
     exportError: 'Не удалось экспортировать данные',
     importError: 'Ошибка при импорте данных',
     invalidFormat: 'Некорректный формат данных',
@@ -122,6 +123,17 @@ export const ru = {
     fileReadError: 'Ошибка при чтении файла',
     maliciousContent: 'JSON содержит потенциально опасный контент',
     invalidJson: 'Некорректный формат JSON',
+  },
+
+  // Toast notifications
+  toast: {
+    programGenerated: 'Программа успешно сгенерирована!',
+    programError: 'Ошибка при генерации программы. Попробуйте еще раз.',
+    logSaved: 'Запись сохранена',
+    logError: 'Ошибка при сохранении записи',
+    dataExported: 'Данные успешно экспортированы',
+    dataImported: 'Данные успешно импортированы',
+    importError: 'Не удалось импортировать данные',
   },
 };
 

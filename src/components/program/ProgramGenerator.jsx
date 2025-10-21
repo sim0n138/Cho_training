@@ -4,6 +4,7 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Tabs from '../ui/Tabs';
 import RangeSlider from '../ui/RangeSlider';
+import toast from '../ui/Toast';
 import RpeSelector from './RpeSelector';
 import PainAreaSelector from './PainAreaSelector';
 import ExerciseList from './ExerciseList';
@@ -13,6 +14,7 @@ import {
   STORAGE_KEYS,
   DEFAULT_DURATION,
   DURATION_OPTIONS,
+  UI_TIMINGS,
 } from '../../constants/index';
 import './ProgramGenerator.css';
 
@@ -71,7 +73,7 @@ function ProgramGenerator({ useWellbeingData = true }) {
   const handleGenerateProgram = useCallback(() => {
     setIsGenerating(true);
 
-    // Simulate async operation for loading state
+    // Use constant instead of magic number
     setTimeout(() => {
       try {
         const newProgram = programService.generateProgramWithGoal(
@@ -83,13 +85,14 @@ function ProgramGenerator({ useWellbeingData = true }) {
         );
         setProgram(newProgram);
         programService.saveProgramToHistory(newProgram);
+        toast.success('Программа успешно сгенерирована!');
       } catch (error) {
         console.error('Error generating program:', error);
-        // Could show error notification here
+        toast.error('Ошибка при генерации программы. Попробуйте еще раз.');
       } finally {
         setIsGenerating(false);
       }
-    }, 300);
+    }, UI_TIMINGS.PROGRAM_GENERATION_DELAY);
   }, [rpe, painAreas, workoutGoal, duration, useWellbeingData]);
 
   const handleSaveRpe = (newRpe) => {

@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
+import { WellbeingProvider } from './contexts/WellbeingContext';
+import { ToastContainer } from './components/ui/Toast';
 import { useTranslation } from './i18n/useTranslation.js';
 import './App.css';
 
@@ -25,17 +27,20 @@ function LoadingFallback() {
 function App() {
   return (
     <ErrorBoundary>
-      <Router>
-        <Suspense fallback={<LoadingFallback />}>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/log" element={<Log />} />
-            <Route path="/stats" element={<Stats />} />
-            <Route path="/program" element={<Program />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </Suspense>
-      </Router>
+      <WellbeingProvider>
+        <Router>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/log" element={<Log />} />
+              <Route path="/stats" element={<Stats />} />
+              <Route path="/program" element={<Program />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </Suspense>
+        </Router>
+        <ToastContainer />
+      </WellbeingProvider>
     </ErrorBoundary>
   );
 }
