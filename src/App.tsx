@@ -10,7 +10,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
           <Route path="log" element={<Log />} />
           <Route path="stats" element={<Stats />} />
         </Route>

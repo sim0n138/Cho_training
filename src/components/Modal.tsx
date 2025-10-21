@@ -35,15 +35,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
       <div className="relative bg-white border border-black max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto animate-slide-up">
         <div className="p-6">
           {title && (
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">{title}</h2>
-              <button
-                onClick={onClose}
-                className="text-gray-500 hover:text-black transition-colors px-2 py-1"
-              >
-                ✕
-              </button>
-            </div>
+            <h2 className="text-xl font-bold mb-4">{title}</h2>
           )}
           {children}
         </div>
