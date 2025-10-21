@@ -113,6 +113,7 @@ export const en = {
     import: 'Import',
     exportSuccess: 'Data exported successfully',
     importSuccess: 'Data imported successfully',
+    importLoading: 'Importing data...',
     exportError: 'Failed to export data',
     importError: 'Error importing data',
     invalidFormat: 'Invalid data format',
@@ -122,6 +123,17 @@ export const en = {
     fileReadError: 'Error reading file',
     maliciousContent: 'JSON contains potentially malicious content',
     invalidJson: 'Invalid JSON format',
+  },
+
+  // Toast notifications
+  toast: {
+    programGenerated: 'Program generated successfully!',
+    programError: 'Error generating program. Please try again.',
+    logSaved: 'Entry saved',
+    logError: 'Error saving entry',
+    dataExported: 'Data exported successfully',
+    dataImported: 'Data imported successfully',
+    importError: 'Failed to import data',
   },
 };
 

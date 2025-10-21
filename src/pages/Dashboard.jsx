@@ -7,7 +7,8 @@ import { useState, useEffect, useRef } from 'react';
 import Layout from '../components/layout/Layout';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
-import useWellbeingData from '../hooks/useWellbeingData';
+import toast from '../components/ui/Toast';
+import { useWellbeing } from '../contexts/WellbeingContext';
 import recommendationService from '../services/recommendationService';
 import exportService from '../services/exportService';
 import './Dashboard.css';
@@ -17,10 +18,10 @@ import './Dashboard.css';
  * Displays current wellbeing status, workout recommendations, and data management tools
  */
 function Dashboard() {
-  const { latestLog, stats } = useWellbeingData();
+  const { latestLog, importLogs, getStats } = useWellbeing();
+  const stats = getStats();
   const [greeting, setGreeting] = useState('');
   const [recommendation, setRecommendation] = useState(null);
-  const [importStatus, setImportStatus] = useState(null);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -47,9 +48,10 @@ function Dashboard() {
   const handleExport = () => {
     try {
       exportService.downloadLogsAsJSON();
+      toast.success('Данные успешно экспортированы');
     } catch (error) {
       console.error('Export failed:', error);
-      alert('Не удалось экспортировать данные');
+      toast.error('Не удалось экспортировать данные');
     }
   };
 
@@ -68,29 +70,23 @@ function Dashboard() {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    const loadingToast = toast.loading('Импорт данных...');
+
     try {
       const result = await exportService.importLogsFromFile(file, true);
+      toast.dismiss(loadingToast);
+
       if (result.success) {
-        setImportStatus({
-          type: 'success',
-          message: result.message,
-        });
-        // Reload page to update data
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        // Import logs using context (no page reload needed!)
+        importLogs(result.logs, true);
+        toast.success(result.message || 'Данные успешно импортированы');
       } else {
-        setImportStatus({
-          type: 'error',
-          message: result.message,
-        });
+        toast.error(result.message || 'Не удалось импортировать данные');
       }
     } catch (err) {
       console.error('Import failed:', err);
-      setImportStatus({
-        type: 'error',
-        message: 'Ошибка при импорте данных',
-      });
+      toast.dismiss(loadingToast);
+      toast.error('Ошибка при импорте данных');
     }
 
     // Clear input
@@ -261,13 +257,6 @@ function Dashboard() {
               style={{ display: 'none' }}
             />
           </div>
-          {importStatus && (
-            <div
-              className={`import-status ${importStatus.type === 'success' ? 'success' : 'error'}`}
-            >
-              {importStatus.message}
-            </div>
-          )}
           <p className="data-info">
             💡 Экспорт создаст JSON файл со всеми вашими записями. Импорт
             объединит данные с существующими.
