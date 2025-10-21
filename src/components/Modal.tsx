@@ -1,5 +1,4 @@
 import { ReactNode, useEffect } from 'react';
-import { Button } from './Button';
 
 interface ModalProps {
   isOpen: boolean;
@@ -38,9 +37,12 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
           {title && (
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">{title}</h2>
-              <Button variant="ghost" size="sm" onClick={onClose}>
+              <button
+                onClick={onClose}
+                className="text-gray-500 hover:text-black transition-colors px-2 py-1"
+              >
                 ✕
-              </Button>
+              </button>
             </div>
           )}
           {children}

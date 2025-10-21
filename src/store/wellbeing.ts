@@ -17,14 +17,6 @@ export const useWellbeingStore = create<WellbeingStore>()(
         }));
       },
 
-      updateLog: (id, updates) => {
-        set((state) => ({
-          logs: state.logs.map((log) =>
-            log.id === id ? { ...log, ...updates } : log
-          ),
-        }));
-      },
-
       deleteLog: (id) => {
         set((state) => ({
           logs: state.logs.filter((log) => log.id !== id),
@@ -33,27 +25,40 @@ export const useWellbeingStore = create<WellbeingStore>()(
 
       getStats: (): DailyStats[] => {
         const { logs } = get();
-        const statsMap = new Map<string, DailyStats>();
+        const statsMap = new Map<string, {
+          date: string;
+          exerciseCount: number;
+          moodSum: number;
+          energySum: number;
+          count: number
+        }>();
 
         logs.forEach((log) => {
           const existing = statsMap.get(log.date);
           if (existing) {
             existing.exerciseCount += log.exercises.length;
-            existing.avgMood = (existing.avgMood + log.mood) / 2;
-            existing.avgEnergy = (existing.avgEnergy + log.energy) / 2;
+            existing.moodSum += log.mood;
+            existing.energySum += log.energy;
+            existing.count++;
           } else {
             statsMap.set(log.date, {
               date: log.date,
               exerciseCount: log.exercises.length,
-              avgMood: log.mood,
-              avgEnergy: log.energy,
+              moodSum: log.mood,
+              energySum: log.energy,
+              count: 1,
             });
           }
         });
 
-        return Array.from(statsMap.values()).sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
+        return Array.from(statsMap.values())
+          .map(({ date, exerciseCount, moodSum, energySum, count }) => ({
+            date,
+            exerciseCount,
+            avgMood: moodSum / count,
+            avgEnergy: energySum / count,
+          }))
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       },
 
       importLogs: (logs) => {

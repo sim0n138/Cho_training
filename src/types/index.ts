@@ -17,7 +17,6 @@ export interface DailyStats {
 export interface WellbeingStore {
   logs: WellbeingLog[];
   addLog: (log: Omit<WellbeingLog, 'id'>) => void;
-  updateLog: (id: string, log: Partial<WellbeingLog>) => void;
   deleteLog: (id: string) => void;
   getStats: () => DailyStats[];
   importLogs: (logs: WellbeingLog[]) => void;
