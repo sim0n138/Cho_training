@@ -25,13 +25,16 @@ export const useWellbeingStore = create<WellbeingStore>()(
 
       getStats: (): DailyStats[] => {
         const { logs } = get();
-        const statsMap = new Map<string, {
-          date: string;
-          exerciseCount: number;
-          moodSum: number;
-          energySum: number;
-          count: number
-        }>();
+        const statsMap = new Map<
+          string,
+          {
+            date: string;
+            exerciseCount: number;
+            moodSum: number;
+            energySum: number;
+            count: number;
+          }
+        >();
 
         logs.forEach((log) => {
           const existing = statsMap.get(log.date);
@@ -58,7 +61,9 @@ export const useWellbeingStore = create<WellbeingStore>()(
             avgMood: moodSum / count,
             avgEnergy: energySum / count,
           }))
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
       },
 
       importLogs: (logs) => {

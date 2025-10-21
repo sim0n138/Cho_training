@@ -9,7 +9,10 @@ export function Dashboard() {
 
   const latestLog = logs.length > 0 ? logs[logs.length - 1] : null;
   const totalLogs = logs.length;
-  const totalExercises = logs.reduce((sum, log) => sum + log.exercises.length, 0);
+  const totalExercises = logs.reduce(
+    (sum, log) => sum + log.exercises.length,
+    0
+  );
   const avgMood =
     logs.length > 0
       ? (logs.reduce((sum, log) => sum + log.mood, 0) / logs.length).toFixed(1)
@@ -83,7 +86,9 @@ export function Dashboard() {
             </div>
             <div>
               <span className="text-sm text-gray-500">Exercises:</span>{' '}
-              <span className="font-medium">{latestLog.exercises.join(', ')}</span>
+              <span className="font-medium">
+                {latestLog.exercises.join(', ')}
+              </span>
             </div>
             <div className="flex gap-4">
               <div>

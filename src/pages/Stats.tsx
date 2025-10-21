@@ -90,7 +90,9 @@ export function Stats() {
             </div>
             <div>
               <div className="text-sm text-gray-500 mb-1">Exercises</div>
-              <div className="font-medium">{selectedLog.exercises.join(', ')}</div>
+              <div className="font-medium">
+                {selectedLog.exercises.join(', ')}
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
