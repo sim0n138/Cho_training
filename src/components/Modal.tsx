@@ -34,9 +34,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
       />
       <div className="relative bg-white border border-black max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto animate-slide-up">
         <div className="p-6">
-          {title && (
-            <h2 className="text-xl font-bold mb-4">{title}</h2>
-          )}
+          {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
           {children}
         </div>
       </div>
