@@ -1,33 +1,92 @@
+/**
+ * Enhanced ExerciseList styles with modern micro-interactions
+ * Features: Smooth hover effects, better visual feedback, improved accessibility
+ */
+
 .exercise-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
+  animation: fadeInUp 0.5s ease-out;
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced exercise item with modern card design */
 .exercise-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: var(--spacing-lg);
-  background-color: var(--color-bg-tertiary);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-light);
-  transition: all var(--transition-base);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+  border-radius: var(--radius-lg);
+  border: 2px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient background on hover */
+.exercise-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.exercise-item:hover::before {
+  left: 100%;
 }
 
 .exercise-item:hover {
   border-color: var(--color-primary);
-  background-color: var(--color-bg-hover);
-  transform: translateX(4px);
-  box-shadow: var(--shadow-sm);
+  background: var(--color-bg-hover);
+  transform: translateX(8px) scale(1.01);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1),
+    0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .exercise-item:focus {
   outline: none;
-  box-shadow: var(--shadow-focus);
+  box-shadow:
+    0 0 0 3px var(--color-primary),
+    0 10px 25px rgba(79, 70, 229, 0.2);
+  border-color: var(--color-primary);
+}
+
+.exercise-item:active {
+  transform: translateX(6px) scale(0.99);
+}
+
+/* Add pulse effect for new items */
+.exercise-item:nth-child(1) {
+  animation: fadeInUp 0.5s ease-out, pulse 2s ease-in-out 0.5s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(79, 70, 229, 0);
+  }
 }
 
 .exercise-info {
@@ -40,47 +99,167 @@
 .exercise-name {
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-lg);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* Add checkmark icon before exercise name */
+.exercise-name::before {
+  content: '✓';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--color-success);
+  color: white;
+  border-radius: 50%;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s;
+}
+
+.exercise-item:hover .exercise-name::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.exercise-item:hover .exercise-name {
+  color: var(--color-primary);
 }
 
 .exercise-meta {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* Add visual separators between meta items */
+.exercise-meta::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: var(--color-text-tertiary);
+  border-radius: 50%;
+  margin: 0 var(--spacing-xs);
 }
 
 .exercise-areas {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   font-style: italic;
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-xs);
 }
 
+/* Style individual areas as tags */
+.exercise-areas::before {
+  content: '🎯';
+  font-size: var(--font-size-sm);
+}
+
+/* Enhanced arrow with smooth animation */
 .exercise-arrow {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-3xl);
   color: var(--color-text-tertiary);
-  transition: transform var(--transition-base);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
-  margin-left: var(--spacing-md);
+  margin-left: var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(79, 70, 229, 0.05);
 }
 
 .exercise-item:hover .exercise-arrow {
-  transform: translateX(4px);
+  transform: translateX(6px) rotate(0deg);
   color: var(--color-primary);
+  background: rgba(79, 70, 229, 0.15);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.exercise-item:active .exercise-arrow {
+  transform: translateX(4px) scale(0.95);
 }
 
 .category-time {
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   font-size: var(--font-size-base);
+  background: rgba(79, 70, 229, 0.1);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-left: var(--spacing-sm);
 }
 
 .no-exercises {
   color: var(--color-text-tertiary);
   font-style: italic;
+  text-align: center;
+  padding: var(--spacing-xl);
+  font-size: var(--font-size-base);
 }
 
-@media (max-width: 768px) {
+/* Progress bar for exercise duration */
+.exercise-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-success) 100%);
+  width: 0;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.exercise-item:hover::after {
+  width: 100%;
+}
+
+/* Tablet optimizations */
+@media (max-width: 1024px) {
   .exercise-item {
-    padding: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .exercise-name {
+    font-size: var(--font-size-base);
+  }
+
+  .exercise-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .exercise-list {
+    gap: var(--spacing-xs);
+  }
+
+  .exercise-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .exercise-item:hover {
+    transform: translateX(4px) scale(1.005);
   }
 
   .exercise-name {
@@ -89,5 +268,44 @@
 
   .exercise-meta {
     font-size: var(--font-size-xs);
+  }
+
+  .exercise-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: var(--font-size-xl);
+    margin-left: var(--spacing-sm);
+  }
+
+  .category-time {
+    font-size: var(--font-size-sm);
+    padding: 2px var(--spacing-xs);
+  }
+}
+
+/* Accessibility: High contrast mode */
+@media (prefers-contrast: high) {
+  .exercise-item {
+    border: 2px solid var(--color-border);
+  }
+
+  .exercise-item:hover {
+    border: 3px solid var(--color-primary);
+  }
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .exercise-item,
+  .exercise-arrow,
+  .exercise-name::before,
+  .exercise-item::before,
+  .exercise-item::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .exercise-item:hover {
+    transform: none;
   }
 }
